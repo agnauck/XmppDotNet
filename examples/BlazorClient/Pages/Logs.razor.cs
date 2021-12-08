@@ -1,10 +1,10 @@
 ﻿namespace BlazorClient.Pages
 {
-    using Matrix;
-    using Matrix.Extensions.Client.Presence;
-    using Matrix.Extensions.Client.Roster;
-    using Matrix.Transport.WebSocket;
-    using Matrix.Xmpp;
+    using XmppDotNet;
+    using XmppDotNet.Extensions.Client.Presence;
+    using XmppDotNet.Extensions.Client.Roster;
+    using XmppDotNet.Transport.WebSocket;
+    using XmppDotNet.Xmpp;
 
     using System;
     using System.Collections.ObjectModel;

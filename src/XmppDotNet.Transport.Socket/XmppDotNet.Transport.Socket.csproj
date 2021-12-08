@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>XmppDotNet Socket Transport</Description>
+    <AssemblyTitle>XmppDotNet Socket Transport</AssemblyTitle>
+    <PackageId>XmppDotNet.Transport.Socket</PackageId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+    <RootNamespace>XmppDotNet.Transport.Socket</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XmppDotNet.Core\XmppDotNet.Core.csproj" />
+    <ProjectReference Include="..\XmppDotNet.Srv\XmppDotNet.Srv.csproj" />
+  </ItemGroup>
+
+</Project>

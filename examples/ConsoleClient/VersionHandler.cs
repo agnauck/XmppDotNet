@@ -1,9 +1,9 @@
 ﻿namespace ConsoleClient
 {
-    using Matrix;
-    using Matrix.Xml;
-    using Matrix.Xmpp;
-    using Matrix.Xmpp.Client;
+    using XmppDotNet;
+    using XmppDotNet.Xml;
+    using XmppDotNet.Xmpp;
+    using XmppDotNet.Xmpp.Client;
     using System;
     using System.Reactive.Linq;
 
@@ -21,7 +21,7 @@
                     el =>
                         el.OfType<Iq>()
                         && el.Cast<Iq>().Type == IqType.Get
-                        && el.Cast<Iq>().Query.OfType<Matrix.Xmpp.Version.Version>()
+                        && el.Cast<Iq>().Query.OfType<XmppDotNet.Xmpp.Version.Version>()
                 )
                 .Subscribe(async el =>
                 {
@@ -32,7 +32,7 @@
                     resIq.To = iq.From;
                     resIq.Type = IqType.Result;
 
-                    resIq.Version.Name = "Matrix-Client";
+                    resIq.Version.Name = "XmppDotNet-Client";
                     resIq.Version.Os = "Windows";
                     resIq.Version.Ver = "1.2.0";
 

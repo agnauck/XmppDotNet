@@ -1,12 +1,11 @@
 namespace ConsoleClient
 {
-    using Matrix;
-    using Matrix.Extensions.Client.Presence;
-    using Matrix.Extensions.Client.Roster;
-    using Matrix.Transport.Socket;
-    using Matrix.Transport.WebSocket;
-    using Matrix.Xmpp;
-    using Matrix.Xmpp.Base;
+    using XmppDotNet;
+    using XmppDotNet.Extensions.Client.Presence;
+    using XmppDotNet.Extensions.Client.Roster;
+    using XmppDotNet.Transport.Socket;
+    using XmppDotNet.Xmpp;
+    using XmppDotNet.Xmpp.Base;
     using System;
     using System.Diagnostics;
     using System.Reactive.Linq;
@@ -72,7 +71,7 @@ namespace ConsoleClient
             
             await xmppClient.ConnectAsync();
 
-            //await xmppClient.SendAsync(new Matrix.Xmpp.Client.Message
+            //await xmppClient.SendAsync(new XmppDotNet.Xmpp.Client.Message
             //{
             //    Type = MessageType.Chat,
             //    To = "user@server.com",

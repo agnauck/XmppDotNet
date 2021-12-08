@@ -1,13 +1,13 @@
 ﻿namespace ConsoleClient
 {
-    using Matrix;
-    using Matrix.Xml;
-    using Matrix.Xmpp;
-    using Matrix.Xmpp.Client;
-    using Matrix.Xmpp.Muc;
-    using Matrix.Xmpp.Muc.Admin;
-    using Matrix.Xmpp.Muc.Owner;
-    using Matrix.Xmpp.XData;
+    using XmppDotNet;
+    using XmppDotNet.Xml;
+    using XmppDotNet.Xmpp;
+    using XmppDotNet.Xmpp.Client;
+    using XmppDotNet.Xmpp.Muc;
+    using XmppDotNet.Xmpp.Muc.Admin;
+    using XmppDotNet.Xmpp.Muc.Owner;
+    using XmppDotNet.Xmpp.XData;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -112,7 +112,7 @@
         //private Iq CreateRequestListStanza(Affiliation affiliation, Jid room)
         //{
         //    var aIq = new AdminIq {To = room, Type = IqType.Get};
-        //    aIq.AdminQuery.AddItem(new Matrix.Xmpp.Muc.Admin.Item(affiliation));
+        //    aIq.AdminQuery.AddItem(new XmppDotNet.Xmpp.Muc.Admin.Item(affiliation));
 
         //    return aIq;
         //}

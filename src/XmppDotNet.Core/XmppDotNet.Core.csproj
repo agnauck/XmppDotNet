@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>XmppDotNet Core</Description>
+		<AssemblyTitle>XmppDotNet Core</AssemblyTitle>
+		<RootNamespace>XmppDotNet</RootNamespace>
+		<PackageId>XmppDotNet.Core</PackageId>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>TRACE;STRINGPREP</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>TRACE;STRINGPREP</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Reactive" Version="$(SystemReactiveVersion)" />
+	</ItemGroup>
+
+</Project>

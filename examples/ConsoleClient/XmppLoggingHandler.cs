@@ -1,6 +1,6 @@
 ﻿namespace ConsoleClient
 {
-    using Matrix;
+    using XmppDotNet;
     using Serilog;
     using System;
     using System.Text;

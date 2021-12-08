@@ -82,7 +82,7 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Update-Assembly-Version")
     .Does(() =>
     {
-        NuGetRestore("./MatriX.sln");
+        NuGetRestore("./XmppDotNet.sln");
     });
 
 Task("Build")
@@ -90,7 +90,7 @@ Task("Build")
     .Does(() =>
     {
         // Use MSBuild
-        MSBuild("./MatriX.sln", settings =>
+        MSBuild("./XmppDotNet.sln", settings =>
             settings.SetConfiguration(configuration));
     });
 
@@ -121,7 +121,7 @@ Task("Publish-Nuget")
     .Does(() =>
     {
         // Get the paths to the packages.
-        var packages = GetFiles("./src/**/Matrix*.nupkg");
+        var packages = GetFiles("./src/**/XmppDotNet*.nupkg");
         foreach(var package in packages)
         {
             try

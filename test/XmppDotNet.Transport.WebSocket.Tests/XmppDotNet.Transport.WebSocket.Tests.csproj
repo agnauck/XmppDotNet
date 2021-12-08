@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>    
+    <RootNamespace>XmppDotNet.Transport.WebSocket.Tests</RootNamespace>    
+    <PackageId>XmppDotNet.Transport.WebSocket.Tests</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Streams\WebSocket\*.xml" />
+    <EmbeddedResource Include="Streams\WebSocket\*.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(MicrosoftNetTestSdk)" />
+    <PackageReference Include="Moq" Version="$(MoqVersion)" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitRunnerVisualStudioVersion)" />
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <PackageReference Include="Shouldly" Version="$(ShouldlyVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\XmppDotNet.Transport.WebSocket\XmppDotNet.Transport.WebSocket.csproj" />
+    <ProjectReference Include="..\..\src\XmppDotNet\XmppDotNet.csproj" />
+  </ItemGroup>
+
+</Project>

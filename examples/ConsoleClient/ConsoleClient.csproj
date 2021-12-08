@@ -10,10 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Matrix.Extensions\Matrix.Extensions.csproj" />
-    <ProjectReference Include="..\..\src\Matrix.Transport.Socket\Matrix.Transport.Socket.csproj" />
-    <ProjectReference Include="..\..\src\Matrix.Transport.WebSocket\Matrix.Transport.WebSocket.csproj" />
-    <ProjectReference Include="..\..\src\Matrix\Matrix.csproj" />
+    <ProjectReference Include="..\..\src\XmppDotNet.Extensions\XmppDotNet.Extensions.csproj" />
+    <ProjectReference Include="..\..\src\XmppDotNet.Transport.Socket\XmppDotNet.Transport.Socket.csproj" />
+    <ProjectReference Include="..\..\src\XmppDotNet.Transport.WebSocket\XmppDotNet.Transport.WebSocket.csproj" />
+    <ProjectReference Include="..\..\src\XmppDotNet\XmppDotNet.csproj" />
   </ItemGroup>
 
   <ItemGroup>
