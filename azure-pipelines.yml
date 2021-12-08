@@ -24,7 +24,7 @@ steps:
     verbosity: 'Verbose'
     Version: '1.0.0-rc0002'
     arguments: '--civersion --nugettoken="$(myget.token)" --nugetfeed="$(myget.feed)" --nugetpush'
-  condition: eq(variables['rcversion'], '')
+  condition: and(eq(variables['rcversion'], ''), eq(variables['release'], ''))
 
 - task: Cake@2
   displayName: Run Cake script (RC)
@@ -34,4 +34,14 @@ steps:
     verbosity: 'Verbose'
     Version: '1.0.0-rc0002'
     arguments: '--rcversion="$(rcversion)" --nugettoken="$(myget.token)" --nugetfeed="$(myget.feed)" --nugetpush'
-  condition: ne(variables['rcversion'], '')
+  condition: and(ne(variables['rcversion'], ''), eq(variables['release'], ''))
+
+- task: Cake@2
+  displayName: Run Cake script (Release)
+  inputs:
+    script: 'build.cake'
+    target: 'Default'
+    verbosity: 'Verbose'
+    Version: '1.0.0-rc0002'
+    arguments: '--nugettoken="$(myget.token)" --nugetfeed="$(myget.feed)" --nugetpush'
+  condition: ne(variables['release'], '')
