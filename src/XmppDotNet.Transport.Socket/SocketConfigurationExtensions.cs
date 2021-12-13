@@ -3,7 +3,7 @@
     public static class SocketConfigurationExtensions
     {
         /// <summary>
-        /// Use WebSocket Transport
+        /// Use Socket Transport
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="resolver"></param>
@@ -23,7 +23,7 @@
         }
 
         /// <summary>
-        /// Use WebSocket Transport
+        /// Use Socket Transport
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="resolver"></param>
@@ -40,7 +40,24 @@
         }
 
         /// <summary>
-        /// Use WebSocket Transport
+        /// Use Socket Transport
+        /// </summary>
+        /// <param name="configuration"></param>        
+        /// <param name="certificateValidator"></param>
+        /// <returns></returns>
+        public static XmppDotNet.Configuration UseSocketTransport(
+            this Configuration configuration,            
+            ICertificateValidator certificateValidator)
+        {
+            configuration.Transport = new SocketTransport
+            {
+                CertificateValidator = certificateValidator
+            };
+            return configuration;
+        }
+
+        /// <summary>
+        /// Use Socket Transport
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
