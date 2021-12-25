@@ -11,7 +11,7 @@
         readonly CancellationTokenSource cts = new CancellationTokenSource();
 
         bool reconnecting = false;
-        bool shouldReconnect = true;
+        bool shouldReconnect = false;
 
         public ReconnectHandler(XmppConnection xmppConnection)
             : base(xmppConnection)
@@ -30,13 +30,13 @@
                         // got disconnected
                         Task.Run(async () => await Reconnect().ConfigureAwait(false));
                     }
-                });
 
-            xmppCon
-                .StateChanged
-                .Subscribe(se =>
-                {
-                    if (se == SessionState.Disconnecting)
+                    if (st == SessionState.Authenticated)
+                    {
+                        shouldReconnect = true;
+                    }
+
+                    if (st == SessionState.Disconnecting)
                     {
                         // intended disconnect by user, no reconnect required
                         this.shouldReconnect = false;
