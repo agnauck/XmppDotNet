@@ -11,7 +11,8 @@
     using System.Xml.Linq;
     using XmppDotNet.Xml;
     using Microsoft.AspNetCore.Builder;
-
+    using Microsoft.AspNetCore.Http;
+    
     public class Startup
     {
         private XmppXElement testDocument;
@@ -23,9 +24,8 @@
         public void Configure(IApplicationBuilder app/*, IWebHostEnvironment env*/)
         {
             app.UseWebSockets();
-            app.Use(async (context, next) =>
+            app.Use(async (HttpContext context, Func<Task> next) =>
             {
-
                 if (context.WebSockets.IsWebSocketRequest)
                 {
                     var webSocket = await context.WebSockets.AcceptWebSocketAsync();
@@ -36,10 +36,9 @@
                 {
                     context.Response.StatusCode = 400;
                 }
-
             });
         }
-
+        
         private async Task HandleRequest(WebSocket webSocket)
         {
             int packetCounter = 0;
