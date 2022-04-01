@@ -4,8 +4,8 @@
 		<ShouldlyVersion>4.0.3</ShouldlyVersion>
 		<XunitVersion>2.4.1</XunitVersion>
 		<XunitRunnerVisualStudioVersion>2.4.3</XunitRunnerVisualStudioVersion>
-		<MicrosoftNetTestSdk>16.8.3</MicrosoftNetTestSdk>
+		<MicrosoftNetTestSdk>17.1.0</MicrosoftNetTestSdk>
 		<MoqVersion>4.15.2</MoqVersion>
-		<PollyVersion>7.2.1</PollyVersion>
+		<PollyVersion>7.2.3</PollyVersion>
 	</PropertyGroup>
 </Project>
