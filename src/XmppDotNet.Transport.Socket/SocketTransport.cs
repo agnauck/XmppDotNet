@@ -33,6 +33,7 @@
         private bool isSecure;
         private readonly StreamParser streamParser = new StreamParser();
 
+        private const int ReceiveBufferSize = 1024 * 8;
         private const string Whitespace = " ";
         private Timer keepAliveTimer;
         private int KeepAliveInterval = TimeConstants.FifteenSeconds;
@@ -276,7 +277,7 @@
         private async Task Receive(/*CancellationToken cancellationToken*/)
         {
             bool cancelRead = false;
-            var bytes = new byte[1024 * 2];
+            var bytes = new byte[ReceiveBufferSize];
             //while (!cancellationToken.IsCancellationRequested)
             while (!cancelRead)
             {
