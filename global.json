@@ -7,7 +7,7 @@
         "vs": {
             "version": "17.4.1"
         },
-        xcopy-msbuild": "17.4.1",
+        "xcopy-msbuild": "17.4.1",
         "rollForward": "latestFeature"
     }
 }
