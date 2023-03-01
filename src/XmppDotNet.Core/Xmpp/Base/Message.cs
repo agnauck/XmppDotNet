@@ -3,6 +3,7 @@ using XmppDotNet.Xmpp.Chatstates;
 using XmppDotNet.Xmpp.Delay;
 using XmppDotNet.Xmpp.ExtendedStanzaAddressing;
 using XmppDotNet.Xmpp.LastMessageCorrection;
+using XmppDotNet.Xmpp.MessageCarbons;
 using XmppDotNet.Xmpp.Nickname;
 using XmppDotNet.Xmpp.Receipts;
 using XmppDotNet.Xmpp.RosterItemExchange;
@@ -10,6 +11,7 @@ using XmppDotNet.Xmpp.SecurityLabels;
 using XmppDotNet.Xmpp.Shim;
 using XmppDotNet.Xmpp.XData;
 using XmppDotNet.Xmpp.XHtmlIM;
+using Received = XmppDotNet.Xmpp.Receipts.Received;
 
 namespace XmppDotNet.Xmpp.Base
 {
@@ -77,6 +79,50 @@ namespace XmppDotNet.Xmpp.Base
         public bool IsRosterExchange
         {
             get { return Element<Exchange>() != null; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this message is a received carbon message
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is a received carbon message; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsReceivedCarbon
+        {
+            get { return Element<MessageCarbons.Received>() != null; }
+        }
+        
+        /// <summary>
+        /// Gets a value indicating whether this message is a sent carbon message
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is a sent carbon message; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsSentCarbon
+        {
+            get { return Element<Sent>() != null; }
+        }
+
+        /// <summary>
+        /// The sent Carbon object.
+        /// </summary>
+        /// <value>
+        /// The sent carbon object, or null when this message contains no sent carbon.
+        /// </value>
+        public Sent SentCarbon
+        {
+            get { return Element<Sent>(); }
+        }
+
+        /// <summary>
+        /// The received Carbon object.
+        /// </summary>
+        /// <value>
+        /// The received carbon object, or null when this message contains no received carbon.
+        /// </value>
+        public MessageCarbons.Received ReceivedCarbon
+        {
+            get { return Element<MessageCarbons.Received>(); }
         }
         #endregion
 
