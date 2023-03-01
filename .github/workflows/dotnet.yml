@@ -32,5 +32,5 @@ jobs:
         cake-version: tool-manifest
         arguments: |
             nugetpush: true
-            nugettoken: ${{ env.NUGET_TOKEN }}
-            nugetfeed:  ${{ env.NUGET_FEED }}
+            nugettoken: ${{ secrets.NUGET_TOKEN }}
+            nugetfeed:  ${{ vars.NUGET_FEED }}
