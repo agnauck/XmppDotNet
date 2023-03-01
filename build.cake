@@ -54,33 +54,38 @@ Task("Update-Assembly-Version")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        var year = System.DateTime.Now.ToString("yy");
-        var julianYear = year.Substring(0);
-        var dayOfYear = DateTime.Now.DayOfYear;
-        var julianDate = julianYear + String.Format("{0:D3}", dayOfYear);
-
-        var vstsBuildNumber = AzurePipelines.Environment.Build.Number;
-        var splitted = vstsBuildNumber.Split('.');
-        var buildIncrementalNumber = splitted[splitted.Length - 1];
-
-        string prefix = "";
-        if (HasArgument("rcversion"))
+        if (BuildSystem.GitHubActions.IsRunningOnGitHubActions)
         {
-            prefix = "rc." + Argument<string>("rcversion");
-        }
-        else
-        {
-            prefix = "ci";
-        }
+            var year = System.DateTime.Now.ToString("yy");
+            var julianYear = year.Substring(0);
+            var dayOfYear = DateTime.Now.DayOfYear;
+            var julianDate = julianYear + String.Format("{0:D3}", dayOfYear);
 
-        var files = GetFiles("./**/version.props");
-        foreach(var file in files)
-        {
-            var currentVersion = XmlPeek(file.FullPath, "/Project/PropertyGroup/AssemblyVersion");
-            var newVersion = $"{currentVersion}-{prefix}-{julianDate}-{buildIncrementalNumber}";
+            // var vstsBuildNumber = AzurePipelines.Environment.Build.Number;
+            // var splitted = vstsBuildNumber.Split('.');
+            // splitted[splitted.Length - 1];
+            var workflow = BuildSystem.GitHubActions.Environment.Workflow;
+            var buildIncrementalNumber = workflow.RunNumber;
 
-            XmlPoke(file.FullPath, "/Project/PropertyGroup/FileVersion", currentVersion);
-            XmlPoke(file.FullPath, "/Project/PropertyGroup/Version", newVersion);
+            string prefix = "";
+            if (HasArgument("rcversion"))
+            {
+                prefix = "rc." + Argument<string>("rcversion");
+            }
+            else
+            {
+                prefix = "ci";
+            }
+
+            var files = GetFiles("./**/version.props");
+            foreach(var file in files)
+            {
+                var currentVersion = XmlPeek(file.FullPath, "/Project/PropertyGroup/AssemblyVersion");
+                var newVersion = $"{currentVersion}-{prefix}-{julianDate}-{buildIncrementalNumber}";
+
+                XmlPoke(file.FullPath, "/Project/PropertyGroup/FileVersion", currentVersion);
+                XmlPoke(file.FullPath, "/Project/PropertyGroup/Version", newVersion);
+            }                     
         }
     });
 
