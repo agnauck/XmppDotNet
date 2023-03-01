@@ -30,4 +30,7 @@ jobs:
       with:
         target: Default
         cake-version: tool-manifest
-        arguments: --nugettoken="$NUGET_TOKEN" --nugetfeed="$NUGET_FEED" --nugetpush
+        arguments: |
+            nugetpush: true
+            nugettoken: $NUGET_TOKEN
+            nugetfeed: $NUGET_FEED
