@@ -28,7 +28,8 @@ var configuration = Argument("configuration", "Release");
 Task("Clean")
     .Does(() =>
     {
-        Information(GitHubActionsWorkflowInfo.RunId);
+        var workflow = BuildSystem.GitHubActions.Environment.Workflow;
+        Information(workflow.RunId);
         
         // clear all bin directories
         var binDirs = GetDirectories("./**/bin");
