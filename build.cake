@@ -29,7 +29,10 @@ Task("Clean")
     .Does(() =>
     {
         var workflow = BuildSystem.GitHubActions.Environment.Workflow;
-        Information(workflow.RunId);
+        Information($"--jobId {workflow.RunId}");
+        Information($"--serviceNumber {workflow.RunNumber}");
+        Information($"--commitId {workflow.Sha}");
+        Information($"--commitBranch {workflow.Ref}");
         
         // clear all bin directories
         var binDirs = GetDirectories("./**/bin");
