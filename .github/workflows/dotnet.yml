@@ -27,3 +27,4 @@ jobs:
       with:
         target: Default
         cake-version: tool-manifest
+        arguments: --nugettoken="${{ secrets.MYGET_TOKEN }}" --nugetfeed="${{ MYGET_FEED }}" --nugetpush
