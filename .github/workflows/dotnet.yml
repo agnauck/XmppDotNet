@@ -31,4 +31,4 @@ jobs:
       uses: cake-build/cake-action@v1
       with:
         target: Default
-        cake-version: 2.1.0
+        cake-version: tool-manifest
