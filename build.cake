@@ -101,9 +101,9 @@ Task("Run-Unit-Tests")
         var projects = GetFiles("./test/**/*.csproj");
         foreach(var project in projects)
         {
-            DotNetCoreTest(
+            DotNetTest(
                 project.FullPath,
-                new DotNetCoreTestSettings()
+                new DotNetTestSettings()
                 {
                     Configuration = configuration,
                     NoBuild = true,
