@@ -22,9 +22,12 @@ jobs:
         dotnet-version: 7.0.x
         
     - name: Run Cake script
+      env:
+        NUGET_TOKEN: ${{ secrets.MYGET_TOKEN }}
+        NUGET_FEED: ${{ MYGET_FEED }}
       id: build-cake
       uses: cake-build/cake-action@v1
       with:
         target: Default
         cake-version: tool-manifest
-        arguments: --nugettoken="${{ secrets.MYGET_TOKEN }}" --nugetfeed="${{ MYGET_FEED }}" --nugetpush
+        arguments: --nugettoken=$NUGET_TOKEN --nugetfeed=$NUGET_FEED --nugetpush
