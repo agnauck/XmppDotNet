@@ -24,7 +24,7 @@ jobs:
     - name: Run Cake script
       env:
         NUGET_TOKEN: ${{ secrets.MYGET_TOKEN }}
-        NUGET_FEED: ${{ MYGET_FEED }}
+        NUGET_FEED: ${{ vars.MYGET_FEED }}
       id: build-cake
       uses: cake-build/cake-action@v1
       with:
