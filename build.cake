@@ -116,7 +116,7 @@ Task("Run-Unit-Tests")
 
 Task("Publish-Nuget")
     .IsDependentOn("Run-Unit-Tests")
-    .WithCriteria(HasArgument("nugetpush"))
+    .WithCriteria(() => BuildContext.ShouldPublishToNuget)
     .ContinueOnError()
     .Does(() =>
     {
