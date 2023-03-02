@@ -10,15 +10,12 @@ var configuration = Argument("configuration", "Release");
 
 /*
     Additional arguments:
-    civersion:      when present a ci version should be build. Its appending
+    ci-build:       when present a ci version should be build. Its appending
                     ci-$juliandate-$buildnumber
-    rcversion:      when present a rc version should be build
+    rc-build:       when present a rc version should be build
                     rc.1-$juliandate-$buildnumber
 
-    nugetpush:      when present will push nuget packages
-
-    nugetfeed:     the Uri of the nuget feed
-    nugettoken:    Nuget Api-key for pushing packages
+    publish-nuget:  when present will push nuget packages
  */
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -178,7 +175,7 @@ public static class BuildContext
         if (context.BuildSystem().GitHubActions.IsRunningOnGitHubActions)
         {            
             var workflow = context.BuildSystem().GitHubActions.Environment.Workflow;
-            BuildId = workflow.RunNumber;
+            BuildId = (string) workflow.RunNumber;
             IsRunningOnGithub = true;
         }
     }
