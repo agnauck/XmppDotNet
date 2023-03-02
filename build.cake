@@ -21,19 +21,23 @@ var configuration = Argument("configuration", "Release");
     nugettoken:    Nuget Api-key for pushing packages
  */
 
+///////////////////////////////////////////////////////////////////////////////
+// SETUP / TEARDOWN
+///////////////////////////////////////////////////////////////////////////////
+
+Setup(context =>
+{
+   BuildContext.Initialize(Context);
+   BuildContext.PrintParameters(Context);
+});
+
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
 Task("Clean")
     .Does(() =>
-    {
-        var workflow = BuildSystem.GitHubActions.Environment.Workflow;
-        Information($"--jobId {workflow.RunId}");
-        Information($"--serviceNumber {workflow.RunNumber}");
-        Information($"--commitId {workflow.Sha}");
-        Information($"--commitBranch {workflow.Ref}");
-        
+    {      
         // clear all bin directories
         var binDirs = GetDirectories("./**/bin");
         foreach(var dir in binDirs)
@@ -50,43 +54,31 @@ Task("Clean")
     });
 
 Task("Update-Assembly-Version")    
-    .WithCriteria(HasArgument("civersion") || HasArgument("rcversion"))
+    .WithCriteria(() => (BuildContext.IsCiBuild || BuildContext.IsRcBuild) && BuildContext.IsRunningOnGithub)
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        if (BuildSystem.GitHubActions.IsRunningOnGitHubActions)
+        var year = System.DateTime.Now.ToString("yy");
+        var julianYear = year.Substring(0);
+        var dayOfYear = DateTime.Now.DayOfYear;
+        var julianDate = julianYear + String.Format("{0:D3}", dayOfYear);      
+       
+        var buildIncrementalNumber = BuildContext.BuildId;
+        var prefix = "ci";
+        //if (HasArgument("rcversion"))
+        //{
+        //    prefix = "rc." + Argument<string>("rcversion");
+        //}        
+
+        var files = GetFiles("./**/version.props");
+        foreach(var file in files)
         {
-            var year = System.DateTime.Now.ToString("yy");
-            var julianYear = year.Substring(0);
-            var dayOfYear = DateTime.Now.DayOfYear;
-            var julianDate = julianYear + String.Format("{0:D3}", dayOfYear);
+            var currentVersion = XmlPeek(file.FullPath, "/Project/PropertyGroup/AssemblyVersion");
+            var newVersion = $"{currentVersion}-{prefix}-{julianDate}-{buildIncrementalNumber}";
 
-            // var vstsBuildNumber = AzurePipelines.Environment.Build.Number;
-            // var splitted = vstsBuildNumber.Split('.');
-            // splitted[splitted.Length - 1];
-            var workflow = BuildSystem.GitHubActions.Environment.Workflow;
-            var buildIncrementalNumber = workflow.RunNumber;
-
-            string prefix = "";
-            if (HasArgument("rcversion"))
-            {
-                prefix = "rc." + Argument<string>("rcversion");
-            }
-            else
-            {
-                prefix = "ci";
-            }
-
-            var files = GetFiles("./**/version.props");
-            foreach(var file in files)
-            {
-                var currentVersion = XmlPeek(file.FullPath, "/Project/PropertyGroup/AssemblyVersion");
-                var newVersion = $"{currentVersion}-{prefix}-{julianDate}-{buildIncrementalNumber}";
-
-                XmlPoke(file.FullPath, "/Project/PropertyGroup/FileVersion", currentVersion);
-                XmlPoke(file.FullPath, "/Project/PropertyGroup/Version", newVersion);
-            }                     
-        }
+            XmlPoke(file.FullPath, "/Project/PropertyGroup/FileVersion", currentVersion);
+            XmlPoke(file.FullPath, "/Project/PropertyGroup/Version", newVersion);
+        }        
     });
 
 Task("Restore-NuGet-Packages")
@@ -139,8 +131,9 @@ Task("Publish-Nuget")
             {
                 // Push the package.
                 NuGetPush(package, new NuGetPushSettings {
-                    Source = Argument<string>("nugetfeed"),
-                    ApiKey = Argument<string>("nugettoken")
+                    Source = BuildContext.NugetApiUrl,
+                    ApiKey = BuildContext.NugetApiKey,
+                    SkipDuplicate = true
                 });
             }
             catch(System.Exception ex)
@@ -163,3 +156,44 @@ Task("Default")
 //////////////////////////////////////////////////////////////////////
 
 RunTarget(target);
+
+public static class BuildContext
+{    
+    public static string NugetApiUrl { get; private set; }
+    public static string NugetApiKey { get; private set; }
+    public static bool IsCiBuild { get; private set; }
+    public static bool IsRcBuild { get; private set; }
+    public static bool ShouldPublishToNuget { get; private set; }
+    public static string BuildId { get; private set; }
+    public static bool IsRunningOnGithub { get; private set; }
+        
+    public static void Initialize(ICakeContext context)
+    {
+        NugetApiUrl = context.EnvironmentVariable("NUGET_API_URL");
+        NugetApiKey = context.EnvironmentVariable("NUGET_API_KEY");
+        ShouldPublishToNuget = context.Argument<bool>("publish-nuget", false);
+        IsCiBuild = context.Argument<bool>("ci-build", false);
+        IsRcBuild = context.Argument<bool>("rc-build", false);
+        
+        if (BuildSystem.GitHubActions.IsRunningOnGitHubActions)
+        {            
+            var workflow = BuildSystem.GitHubActions.Environment.Workflow;
+            BuildId = workflow.RunNumber;
+            IsRunningOnGithub = true;
+        }
+    }
+
+    public static void PrintParameters(ICakeContext context)
+    {
+        context.Information("Printing Build Parameters...");        
+        context.Information("NugetApiUrl: {0}", NugetApiUrl);
+        context.Information("NugetApiKey: {0}", NugetApiKey);
+        context.Information("ShouldPublishToNuget: {0}", ShouldPublishToNuget);
+        
+        var workflow = BuildSystem.GitHubActions.Environment.Workflow;
+        context.Information($"JobId: {workflow.RunId}");
+        context.Information($"RunNumber: {workflow.RunNumber}");
+        context.Information($"CommitId: {workflow.Sha}");
+        context.Information($"CommitBranch: {workflow.Ref}");        
+    }
+}
