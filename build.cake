@@ -175,9 +175,9 @@ public static class BuildContext
         IsCiBuild = context.Argument<bool>("ci-build", false);
         IsRcBuild = context.Argument<bool>("rc-build", false);
         
-        if (context.BuildSystem.GitHubActions.IsRunningOnGitHubActions)
+        if (context.BuildSystem().GitHubActions.IsRunningOnGitHubActions)
         {            
-            var workflow = context.BuildSystem.GitHubActions.Environment.Workflow;
+            var workflow = context.BuildSystem().GitHubActions.Environment.Workflow;
             BuildId = workflow.RunNumber;
             IsRunningOnGithub = true;
         }
@@ -190,7 +190,7 @@ public static class BuildContext
         context.Information("NugetApiKey: {0}", NugetApiKey);
         context.Information("ShouldPublishToNuget: {0}", ShouldPublishToNuget);
         
-        var workflow = context.BuildSystem.GitHubActions.Environment.Workflow;
+        var workflow = context.BuildSystem().GitHubActions.Environment.Workflow;
         context.Information($"JobId: {workflow.RunId}");
         context.Information($"RunNumber: {workflow.RunNumber}");
         context.Information($"CommitId: {workflow.Sha}");
