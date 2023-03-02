@@ -1,13 +1,19 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+name: Build
 
 on:
   push:
-    branches: [ "XmppDotNet" ]
+    branches: [ "XmppDotNet", "release-ci" ]
   pull_request:
     branches: [ "XmppDotNet" ]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Publish release packages'
+        required: false
+        type: boolean
 
 jobs:
   build:
@@ -30,4 +36,4 @@ jobs:
         cake-version: tool-manifest
         arguments: |
             publish-nuget: true
-            ci-build: true
+            ci-build: ${{ inputs.release != true }}
