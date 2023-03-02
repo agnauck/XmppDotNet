@@ -113,6 +113,20 @@ namespace XmppDotNet.Tests
         }
 
         [Fact]
+        public void JidEqualsBareTest()
+        {
+            var a = new Jid("local1@domain.com/Res1");
+            var b = new Jid("local1@domain.com/Res2");
+
+            a.EqualsBare(b).ShouldBeTrue();
+
+            var c = new Jid("local11@domain.com/Res1");
+            var d = new Jid("local21@domain.com/Res2");
+
+            c.EqualsBare(d).ShouldBeFalse();
+        }
+
+        [Fact]
         public void FullJidEqualsTest()
         {
             var a = new Jid("local1@domain.com/Res1");

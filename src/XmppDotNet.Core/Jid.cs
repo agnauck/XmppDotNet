@@ -371,18 +371,20 @@ namespace XmppDotNet
 		/// </summary>		
         public string Bare => BuildJid(_local, _domain, null);
 
-	    #endregion
+        #endregion
+
+      
 
         #region IEquatable<Jid> Members
 
         /// <summary>
-        /// 
+        /// Compares full jid (local@domain/resource)
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
         bool IEquatable<Jid>.Equals(Jid other) => new FullJidComparer().Compare(other, this) == 0;
 
-	    #endregion
+        #endregion
         /// <summary>
         /// Compares Full jid (local@domain/resource)
         /// </summary>
@@ -390,7 +392,14 @@ namespace XmppDotNet
         /// <returns></returns>
         public bool Equals(Jid other) => new FullJidComparer().Compare(other, this) == 0;
 
-	    /// <summary>
+        /// <summary>
+        /// Compares bare jid (local@domain)
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool EqualsBare(Jid other) => new BareJidComparer().Compare(other, this) == 0;
+
+        /// <summary>
         /// Compares his with the given IComparer
         /// </summary>
         /// <param name="other"></param>
