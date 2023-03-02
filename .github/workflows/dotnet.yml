@@ -5,13 +5,13 @@ name: .NET
 
 on:
   push:
-    branches: [ "XmppDotNet" ]
+    branches: [ "XmppDotNet", "cake" ]
   pull_request:
     branches: [ "XmppDotNet" ]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
