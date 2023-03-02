@@ -38,6 +38,18 @@ namespace XmppDotNet.Tests.Xmpp.MessageCarbons
         }
 
         [Fact]
+        public void ShouldBeCarbonMessage()
+        {
+            var msg1 = XmppXElement.LoadXml(Resource.Get("Xmpp.MessageCarbons.message_carbons1.xml")).Cast<Message>();
+            var msg2 = XmppXElement.LoadXml(Resource.Get("Xmpp.MessageCarbons.message_carbons2.xml")).Cast<Message>();
+            var msg3 = XmppXElement.LoadXml(Resource.Get("Xmpp.Client.message2.xml")).Cast<Message>();
+
+            msg1.IsCarbon.ShouldBeTrue();
+            msg2.IsCarbon.ShouldBeTrue();
+            msg3.IsCarbon.ShouldBeFalse();
+        }
+
+        [Fact]
         public void ShouldBeReceivedCarbonMessage()
         {
             var msg = XmppXElement.LoadXml(Resource.Get("Xmpp.MessageCarbons.message_carbons2.xml")).Cast<Message>();

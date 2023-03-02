@@ -104,6 +104,17 @@ namespace XmppDotNet.Xmpp.Base
         }
 
         /// <summary>
+        /// Gets a value indicating whether this message is a carbon message, either sent or received
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is a carbon message; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsCarbon
+        {
+            get { return IsReceivedCarbon || IsSentCarbon; }
+        }
+
+        /// <summary>
         /// The sent Carbon object.
         /// </summary>
         /// <value>
