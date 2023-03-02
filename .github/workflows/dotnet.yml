@@ -5,7 +5,7 @@ name: .NET
 
 on:
   push:
-    branches: [ "XmppDotNet", "cake" ]
+    branches: [ "XmppDotNet" ]
   pull_request:
     branches: [ "XmppDotNet" ]
 
