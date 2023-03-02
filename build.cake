@@ -175,7 +175,7 @@ public static class BuildContext
         if (context.BuildSystem().GitHubActions.IsRunningOnGitHubActions)
         {            
             var workflow = context.BuildSystem().GitHubActions.Environment.Workflow;
-            BuildId = (string) workflow.RunNumber;
+            BuildId = workflow.RunNumber.ToString();
             IsRunningOnGithub = true;
         }
     }
