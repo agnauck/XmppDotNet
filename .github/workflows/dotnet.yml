@@ -33,5 +33,5 @@ jobs:
         arguments: |
             nugetpush: true
             civersion: true
-            nugettoken: ${{ secrets.NUGET_TOKEN }}
-            nugetfeed:  ${{ vars.NUGET_FEED }}
+            nugettoken: ${{ secrets.MYGET_TOKEN }}
+            nugetfeed:  ${{ vars.MYGET_FEED }}
