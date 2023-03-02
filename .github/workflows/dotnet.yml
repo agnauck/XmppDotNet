@@ -5,9 +5,15 @@ name: .NET
 
 on:
   push:
-    branches: [ "XmppDotNet" ]
+    branches: [ "XmppDotNet", "release-ci" ]
   pull_request:
     branches: [ "XmppDotNet" ]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Publish release packages'
+        required: false
+        type: boolean
 
 jobs:
   build:
@@ -30,4 +36,4 @@ jobs:
         cake-version: tool-manifest
         arguments: |
             publish-nuget: true
-            ci-build: true
+            ci-build: ${{ inputs.release != true }}
