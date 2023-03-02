@@ -35,3 +35,4 @@ jobs:
             civersion: true
             nugettoken: ${{ secrets.MYGET_TOKEN }}
             nugetfeed:  ${{ vars.MYGET_FEED }}
+
