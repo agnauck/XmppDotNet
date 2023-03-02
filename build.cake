@@ -1,5 +1,4 @@
 #addin "Cake.FileHelpers"
-#tool "nuget:?package=nuget.commandline&version=5.8.0"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -81,17 +80,25 @@ Task("Update-Assembly-Version")
 Task("Restore-NuGet-Packages")
     .IsDependentOn("Update-Assembly-Version")
     .Does(() =>
-    {
-        NuGetRestore("./XmppDotNet.sln");
+    {        
+        DotNetRestore("./XmppDotNet.sln", new DotNetRestoreSettings
+        {
+            Verbosity = DotNetVerbosity.Minimal,
+            Sources = new [] { "https://api.nuget.org/v3/index.json" }
+        });
     });
 
 Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
-    {
-        // Use MSBuild
-        MSBuild("./XmppDotNet.sln", settings =>
-            settings.SetConfiguration(configuration));
+    {        
+        var path = MakeAbsolute(new DirectoryPath("./XmppDotNet.sln"));
+        DotNetBuild(path.FullPath, new DotNetBuildSettings
+        {
+            Configuration = configuration,
+            NoRestore = true,
+            //MSBuildSettings = parameters.MSBuildSettings
+        });
     });
 
 Task("Run-Unit-Tests")

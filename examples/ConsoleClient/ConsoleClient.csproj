@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>    
+    <TargetFramework>net6.0</TargetFramework>    
     <OutputType>Exe</OutputType>    
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,12 +14,6 @@
     <ProjectReference Include="..\..\src\XmppDotNet.Transport.Socket\XmppDotNet.Transport.Socket.csproj" />
     <ProjectReference Include="..\..\src\XmppDotNet.Transport.WebSocket\XmppDotNet.Transport.WebSocket.csproj" />
     <ProjectReference Include="..\..\src\XmppDotNet\XmppDotNet.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Logging">
-      <HintPath>..\..\..\..\..\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\5.0.0\ref\net5.0\Microsoft.Extensions.Logging.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
