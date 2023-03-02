@@ -11,9 +11,7 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -22,17 +20,14 @@ jobs:
         dotnet-version: 7.0.x
         
     - name: Run Cake script
-      env:
-        NUGET_TOKEN: ${{ secrets.MYGET_TOKEN }}
-        NUGET_FEED: ${{ vars.MYGET_FEED }}
+      env:        
+        NUGET_API_URL: ${{ vars.MYGET_FEED }}
+        NUGET_API_KEY: ${{ secrets.MYGET_TOKEN }}
       id: build-cake
       uses: cake-build/cake-action@v1
       with:
         target: Default
         cake-version: tool-manifest
         arguments: |
-            nugetpush: true
-            civersion: true
-            nugettoken: ${{ secrets.MYGET_TOKEN }}
-            nugetfeed:  ${{ vars.MYGET_FEED }}
-
+            publish-nuget: true
+            ci-build: true
