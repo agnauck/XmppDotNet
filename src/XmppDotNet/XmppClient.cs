@@ -57,8 +57,6 @@ namespace XmppDotNet
             handlerInitializerAction?.Invoke(handlers, this);
         }
 
-        private string resource = "XmppDotNet";
-
         #region << Properties >>
         /// <summary>
         /// Gets or sets the JID for the XMPP connection.
@@ -72,17 +70,10 @@ namespace XmppDotNet
 
         /// <summary>
         /// Gets or sets the resource identifier.
+        /// The resource usually gets assigned by the server and should be null
         /// </summary>
-        public string Resource
-        {
-            get { return resource; }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(value != null, $"{nameof(Resource)} cannot be null");
-                resource = value;
-            }
-        }
-
+        public string Resource { get; set; }
+       
         /// <summary>
         /// Gets or sets a value indicating whether the stream should be secured over TLS or not when supported and advertised by the server.
         /// </summary>
@@ -221,11 +212,18 @@ namespace XmppDotNet
         {
             XmppSessionStateSubject.Value = XmppDotNet.SessionState.Binding;
 
-            var bIq = new BindIq { Type = IqType.Set, Bind = { Resource = Resource } };
+            var bIq = new BindIq { Type = IqType.Set };
+            if (Resource != null) 
+            {
+                bIq.Bind.Resource = Resource;
+            }
+
             var resBindIq = await SendIqAsync(bIq, cancellationToken).ConfigureAwait(false);
 
-            if (resBindIq.Type != IqType.Result)
+            if (resBindIq.Type != IqType.Result) 
+            {
                 throw new BindException(resBindIq);
+            }                          
 
             if (features.SupportsSession && !features.Session.Optional)
             {
