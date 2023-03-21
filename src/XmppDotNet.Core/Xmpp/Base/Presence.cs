@@ -78,14 +78,14 @@ namespace XmppDotNet.Xmpp.Base
         {
             get
             {
-                try
+                if (HasTag("priority"))
                 {
-                    return int.Parse(GetTag("priority"));
-                }
-                catch
-                {
-                    return 0;
-                }
+                    int priority = 0;
+                    int.TryParse(GetTag("priority"), out priority);
+                    return priority;
+                }                
+                
+                return 0;                
             }
             set
             {
