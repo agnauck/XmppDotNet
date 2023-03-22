@@ -1,9 +1,14 @@
 <Project>
   <PropertyGroup>
     <Copyright>Copyright © Alexander Gnauck, AG-Software</Copyright>
-    <Authors>AG-Software</Authors>    
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>    
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>Alexander Gnauck</Authors>    
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>xmpp;jabber;im;instant messaging</PackageTags>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageProjectUrl>https://github.com/agnauck/XmppDotNet</PackageProjectUrl>
   </PropertyGroup>
+	
+  <ItemGroup>
+	<None Include="../../README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>
