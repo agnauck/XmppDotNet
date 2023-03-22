@@ -324,5 +324,11 @@ namespace XmppDotNet.Xmpp
         /// urn:xmpp:alt-connections:xbosh (XEP-0156: Discovering Alternative XMPP Connection Methods)
         /// </summary>
         public const string AlternativeConnectionsBosh = "urn:xmpp:alt-connections:xbosh";
+
+        // XEP-0402: PEP Native Bookmarks
+        /// <summary>
+        /// urn:xmpp:bookmarks:1 (XEP-0402: PEP Native Bookmarks)
+        /// </summary>
+        public const string Bookmarks1 = "urn:xmpp:bookmarks:1";
     }
 }

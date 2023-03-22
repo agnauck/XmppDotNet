@@ -1,0 +1,3 @@
+<extensions xmlns='urn:xmpp:bookmarks:1'>
+	<state xmlns='http://myclient.example/bookmark/state' minimized='true'/>
+</extensions>

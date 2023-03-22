@@ -1,0 +1,10 @@
+<item xmlns='http://jabber.org/protocol/pubsub' id='orchard@conference.shakespeare.lit'>
+	<conference xmlns='urn:xmpp:bookmarks:1'
+				name='The Orcard'
+				autojoin='1'>
+		<nick>JC</nick>
+		<extensions>
+			<state xmlns='http://myclient.example/bookmark/state' minimized='true'/>
+		</extensions>
+	</conference>
+</item>
