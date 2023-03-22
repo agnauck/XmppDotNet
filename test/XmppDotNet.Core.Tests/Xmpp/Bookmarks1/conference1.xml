@@ -1,0 +1,5 @@
+<conference xmlns='urn:xmpp:bookmarks:1'
+                    name='Council of Oberon'
+                    autojoin='true'>
+	<nick>JC</nick>
+</conference>

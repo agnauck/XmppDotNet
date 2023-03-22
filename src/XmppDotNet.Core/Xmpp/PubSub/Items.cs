@@ -6,7 +6,7 @@ namespace XmppDotNet.Xmpp.PubSub
     [XmppTag(Name = "items", Namespace = Namespaces.Pubsub)]
     public class Items : XmppXElementWithItemCollection<Item>
     {
-        #region << Constrictors >>
+        #region << Constructors >>
         public Items() : base(Namespaces.Pubsub, "items")
         {
         }

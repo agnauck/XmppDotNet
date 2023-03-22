@@ -6,7 +6,7 @@ namespace XmppDotNet.Xmpp.Base
 {
     public abstract class XmppXElementWithItemCollection<T> : XmppXElement where T : XmppXElement, new()
     {
-         #region << Constructors >>
+        #region << Constructors >>
         /// <summary>
         /// Initializes a new instance of the <see cref="XmppXElementWithItemCollection{T}"/> class.
         /// </summary>
