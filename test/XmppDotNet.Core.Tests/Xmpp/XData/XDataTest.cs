@@ -87,7 +87,7 @@ namespace XmppDotNet.Tests.Xmpp.XData
         }
         
         [Fact]
-        public void TeBuildTextSingleField()
+        public void TestBuildTextSingleField()
         {
             var xmlExpected = Resource.Get("Xmpp.XData.field2.xml");
                 
@@ -98,6 +98,22 @@ namespace XmppDotNet.Tests.Xmpp.XData
                 Label = "Natural-Language Room Name"
             }
             .ShouldBe(xmlExpected);
+        }
+
+        [Fact]
+        public void TestBoolValued()
+        {
+            var fieldFalse1 = XmppXElement.LoadXml("<field xmlns='jabber:x:data' type='boolean' var='public'><value>0</value></field>") as Field;
+            var fieldFalse2 = XmppXElement.LoadXml("<field xmlns='jabber:x:data' type='boolean' var='public'><value>false</value></field>") as Field;
+            var fieldTrue1 = XmppXElement.LoadXml("<field xmlns='jabber:x:data' type='boolean' var='public'><value>1</value></field>") as Field;
+            var fieldTrue2 = XmppXElement.LoadXml("<field xmlns='jabber:x:data' type='boolean' var='public'><value>true</value></field>") as Field;
+
+
+            fieldFalse1.GetValueBool().ShouldBeFalse();
+            fieldFalse2.GetValueBool().ShouldBeFalse();
+
+            fieldTrue1.GetValueBool().ShouldBeTrue();
+            fieldTrue2.GetValueBool().ShouldBeTrue();
         }
     }
 }
