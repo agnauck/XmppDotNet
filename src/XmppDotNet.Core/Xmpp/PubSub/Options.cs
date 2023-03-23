@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using XmppDotNet.Attributes;
-using XmppDotNet.Xml;
 
 namespace XmppDotNet.Xmpp.PubSub
 {
