@@ -26,15 +26,31 @@ namespace XmppDotNet.Xmpp.XData
             Type = type;
         }
 
-        public Field(string var, string label, FieldType type)
+        public Field(string var, FieldType type)
+            : this()
+        {
+            Type = type;
+            Var = var;
+        }
+
+        public Field(string var, string val, FieldType type)
+            : this()
+        {
+            Type = type;
+            Var = var;
+            AddValue(val);
+        }
+
+        public Field(string var, string val, string label, FieldType type)
             : this()
         {
             Type = type;
             Var = var;
             Label = label;
+            AddValue(val);
         }
         #endregion
-        
+
         #region << Properties >>
         public string Var
         {
@@ -143,9 +159,15 @@ namespace XmppDotNet.Xmpp.XData
         /// <returns></returns>
         public bool GetValueBool()
         {
+            /*
+             * 10. In accordance with Section 3.2.2.1 of XML Schema Part 2: Datatypes, the allowable lexical
+             * representations for the xs:boolean datatype are the strings "0" and "false" for the concept 'false'
+             * and the strings "1" and "true" for the concept 'true'; implementations
+             * MUST support both styles of lexical representation.
+             */
             // only "0" and "1" are valid. We dont care about other buggy implementations
             string val = GetValue();
-            if (val == null || val == "0")
+            if (val == null || val == "0" || val == "false")
                 return false;
             
             return true;

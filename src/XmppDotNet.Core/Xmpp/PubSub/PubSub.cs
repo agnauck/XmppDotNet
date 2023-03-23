@@ -89,6 +89,18 @@ namespace XmppDotNet.Xmpp.PubSub
         }
 
         /// <summary>
+        /// Gets or sets the publish options.
+        /// </summary>
+        /// <value>
+        /// The options.
+        /// </value>
+        public PublishOptions PublishOptions
+        {
+            get { return Element<PublishOptions>(); }
+            set { Replace(value); }
+        }
+
+        /// <summary>
         /// Gets or sets the items.
         /// </summary>
         /// <value>The items.</value>
