@@ -117,6 +117,16 @@ namespace XmppDotNet.Xmpp.Base
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="XmppDotNet.Xmpp.Vcard.Update.X"/> element for Vcard photo advertisements.
+        /// </summary>
+        /// <value>The <see cref="XmppDotNet.Xmpp.Vcard.Update.X"/>.</value>
+        public Vcard.Update.X VcardUpdate
+        {
+            get { return Element<Vcard.Update.X>(); }
+            set { Replace(value); }
+        }
+
+        /// <summary>
         /// Gets or sets the <see cref="XmppDotNet.Xmpp.Muc.User.X"/>.
         /// </summary>
         /// <value>The muc.</value>
