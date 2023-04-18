@@ -38,6 +38,8 @@
         private Timer keepAliveTimer;
         private int KeepAliveInterval = TimeConstants.FifteenSeconds;
 
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
+
         public SocketTransport()
         {
             HandleXmlStream();
@@ -211,21 +213,30 @@
                 throw new InvalidOperationException("Cannot send data when the socket client is not connected.");
             }
 
-            if (xmppXElement.OfType<Xmpp.Client.Stream>()
-                && xmppXElement.Cast<Xmpp.Base.Stream>().IsStartTag
-                && streamHeaderSent)
+            await semaphore.WaitAsync(cancellationToken);
+
+            try
             {
-                streamParser.Reset();
+                if (xmppXElement.OfType<Xmpp.Client.Stream>()
+                    && xmppXElement.Cast<Xmpp.Base.Stream>().IsStartTag
+                    && streamHeaderSent)
+                {
+                    streamParser.Reset();
+                }
+
+                beforeXmlSentSubject.OnNext(xmppXElement);
+
+                var bytes = Encoding.UTF8.GetBytes(xmppXElement.ToString());
+
+                await networkStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+
+                dataSentSubject.OnNext(bytes);
+                xmlSentSubject.OnNext(xmppXElement);
             }
-
-            beforeXmlSentSubject.OnNext(xmppXElement);
-
-            var bytes = Encoding.UTF8.GetBytes(xmppXElement.ToString());            
-
-            await networkStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
-
-            dataSentSubject.OnNext(bytes);
-            xmlSentSubject.OnNext(xmppXElement);
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
         /// <summary>
@@ -253,9 +264,17 @@
                 throw new InvalidOperationException("Cannot send data when the socket client is not connected.");
             }
 
-            var bytes = Encoding.UTF8.GetBytes(data);
-            await networkStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
-            dataSentSubject.OnNext(bytes);
+            await semaphore.WaitAsync(cancellationToken);
+            try 
+            {
+                var bytes = Encoding.UTF8.GetBytes(data);
+                await networkStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+                dataSentSubject.OnNext(bytes);
+            }
+            finally 
+            {
+                semaphore.Release();
+            }
         }
 
         /// <summary>
