@@ -9,13 +9,21 @@
     using System.Reactive.Subjects;
     using System.Text;
     using System.Threading;
+    using System.Threading.Channels;
     using System.Threading.Tasks;
     using Srv;
     using Xml;
     using Xml.Parser;
 
-    public class SocketTransport : ITransport
+    public class SocketTransport: ITransport
     {
+        class SendParameters
+        {
+            public byte[] Bytes { get; set; }
+            public XmppXElement XmppXElement { get; set; }
+            public CancellationToken CancellationToken { get; set; }
+        }
+        
         // subjects
         private readonly ISubject<XmppXElement> xmlReceivedSubject = new Subject<XmppXElement>();
         private readonly ISubject<XmppXElement> beforeXmlSentSubject = new Subject<XmppXElement>();
@@ -34,9 +42,27 @@
         private readonly StreamParser streamParser = new StreamParser();
 
         private const int ReceiveBufferSize = 1024 * 8;
-        private const string Whitespace = " ";
+        private byte[] Whitespace =  Encoding.UTF8.GetBytes(" ");
         private Timer keepAliveTimer;
         private int KeepAliveInterval = TimeConstants.FifteenSeconds;
+
+        private Channel<SendParameters> senderChannel;
+        
+        // observers
+        public IObservable<XmppXElement> XmlReceived => xmlReceivedSubject;
+        public IObservable<XmppXElement> BeforeXmlSent => beforeXmlSentSubject;
+        public IObservable<XmppXElement> XmlSent => xmlSentSubject;
+        public IObservable<byte[]> DataReceived => dataReceivedSubject;
+        public IObservable<byte[]> DataSent => dataSentSubject;
+        public IObservable<State> StateChanged => TransportStateSubject.ValueChanged;
+
+        public IResolver Resolver { get; set; } = new SocketUriResolver();
+        public bool SupportsStartTls => false;
+
+        public ICertificateValidator CertificateValidator { get; set; } = new DefaultCertificateValidator();
+
+        public XmppXElement GetStreamHeader(string to, string version) => new Xmpp.Client.Stream { To = to, Version = version, IsStartTag = true };
+        public XmppXElement GetStreamFooter() => new Xmpp.Client.Stream { IsEndTag = true };
 
         public SocketTransport()
         {
@@ -110,16 +136,13 @@
                     if (st == State.Connected)
                     {
                         keepAliveTimer = new Timer(
-                            async _ =>
+                            _ =>
                             {
-                                try
+                                senderChannel.Writer.TryWrite(new SendParameters
                                 {
-                                    await SendAsync(Whitespace).ConfigureAwait(false);
-                                }
-                                catch (Exception)
-                                {
-                                    // ignore
-                                }
+                                    Bytes = Whitespace,
+                                    CancellationToken = CancellationToken.None
+                                });
                             },
                             null,
                             KeepAliveInterval,
@@ -139,22 +162,6 @@
                 );
         }
 
-        // observers
-        public IObservable<XmppXElement> XmlReceived => xmlReceivedSubject;
-        public IObservable<XmppXElement> BeforeXmlSent => beforeXmlSentSubject;
-        public IObservable<XmppXElement> XmlSent => xmlSentSubject;
-        public IObservable<byte[]> DataReceived => dataReceivedSubject;
-        public IObservable<byte[]> DataSent => dataSentSubject;
-        public IObservable<State> StateChanged => TransportStateSubject.ValueChanged;
-
-        public IResolver Resolver { get; set; } = new SocketUriResolver();
-        public bool SupportsStartTls => false;
-
-        public ICertificateValidator CertificateValidator { get; set; } = new DefaultCertificateValidator();
-
-        public XmppXElement GetStreamHeader(string to, string version) => new Xmpp.Client.Stream { To = to, Version = version, IsStartTag = true };
-        public XmppXElement GetStreamFooter() => new Xmpp.Client.Stream { IsEndTag = true };
-
         public async Task ConnectAsync(string xmppDomain /*, CancellationToken cancellationToken */)
         {
             isSecure = false;
@@ -165,6 +172,8 @@
             await tcpClient.ConnectAsync(addresses, uri.Port).ConfigureAwait(false);
 
             networkStream = tcpClient.GetStream();
+            
+            _ = Task.Run(SenderTask);
 
             if (uri.Scheme == Schemes.Tcps)
             {
@@ -172,7 +181,7 @@
             }
             else
             {
-                StartReceiverTask();
+                _ = Task.Run(ReceiverTask);
             }
 
             TransportStateSubject.Value = State.Connected;
@@ -191,9 +200,21 @@
             finally
             {
                 TransportStateSubject.Value = State.Disconnected;
+                senderChannel?.Writer.TryComplete();
                 networkStream?.Dispose();
                 tcpClient?.Dispose();
             }
+        }
+        
+        /// <summary>
+        /// Send a message on the websocket.
+        /// This method assumes you've already connected via ConnectAsync
+        /// </summary>
+        /// <param name="xmppXElement">The Xml element to send</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public async Task SendAsync(XmppXElement xmppXElement)
+        {
+            await SendAsync(xmppXElement, CancellationToken.None).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -206,28 +227,19 @@
         /// <exception cref="InvalidOperationException">Throws when the underlying TcpClient is not connected to a server.</exception>
         public async Task SendAsync(XmppXElement xmppXElement, CancellationToken cancellationToken)
         {
-            if (!tcpClient.Client.Connected)
+            if (!tcpClient.Client.Connected && senderChannel == null)
             {
                 throw new InvalidOperationException("Cannot send data when the socket client is not connected.");
             }
 
-            if (xmppXElement.OfType<Xmpp.Client.Stream>()
-                && xmppXElement.Cast<Xmpp.Base.Stream>().IsStartTag
-                && streamHeaderSent)
+            await senderChannel.Writer.WriteAsync(new SendParameters()
             {
-                streamParser.Reset();
-            }
-
-            beforeXmlSentSubject.OnNext(xmppXElement);
-
-            var bytes = Encoding.UTF8.GetBytes(xmppXElement.ToString());            
-
-            await networkStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
-
-            dataSentSubject.OnNext(bytes);
-            xmlSentSubject.OnNext(xmppXElement);
+                Bytes = Encoding.UTF8.GetBytes(xmppXElement.ToString()),
+                XmppXElement = xmppXElement,
+                CancellationToken = cancellationToken
+            }, cancellationToken);
         }
-
+        
         /// <summary>
         /// Send data on the websocket.
         /// This method assumes you've already connected via ConnectAsync
@@ -236,7 +248,16 @@
         /// <returns></returns>
         private async Task SendAsync(string data)
         {
-            await SendAsync(data, CancellationToken.None).ConfigureAwait(false);
+            if (!tcpClient.Client.Connected || senderChannel == null)
+            {
+                throw new InvalidOperationException("Cannot send data when the socket client is not connected.");
+            }
+            
+            await senderChannel.Writer.WriteAsync(new SendParameters()
+            {
+                Bytes = Encoding.UTF8.GetBytes(data),
+                CancellationToken = CancellationToken.None
+            }, CancellationToken.None);
         }
 
         /// <summary>
@@ -248,74 +269,116 @@
         /// <returns></returns>
         private async Task SendAsync(string data, CancellationToken cancellationToken)
         {
-            if (!tcpClient.Client.Connected)
+            if (!tcpClient.Client.Connected || senderChannel == null)
             {
                 throw new InvalidOperationException("Cannot send data when the socket client is not connected.");
             }
 
-            var bytes = Encoding.UTF8.GetBytes(data);
-            await networkStream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
-            dataSentSubject.OnNext(bytes);
-        }
-
-        /// <summary>
-        /// Send a message on the websocket.
-        /// This method assumes you've already connected via ConnectAsync
-        /// </summary>
-        /// <param name="xmppXElement">The Xml element to send</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public async Task SendAsync(XmppXElement xmppXElement)
-        {
-            await SendAsync(xmppXElement, CancellationToken.None).ConfigureAwait(false);
-        }
-
-        private void StartReceiverTask()
-        {
-            _ = Task.Run(this.Receive);
-        }
-
-        private async Task Receive(/*CancellationToken cancellationToken*/)
-        {
-            bool cancelRead = false;
-            var bytes = new byte[ReceiveBufferSize];
-            //while (!cancellationToken.IsCancellationRequested)
-            while (!cancelRead)
+            await senderChannel.Writer.WriteAsync(new SendParameters()
             {
-                try
-                {
-                    var bytesRead = await networkStream.ReadAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
+                Bytes = Encoding.UTF8.GetBytes(data),
+                CancellationToken = CancellationToken.None
+            }, cancellationToken);
+        }
 
-                    if (bytesRead == 0)
+        private async Task SenderTask()
+        {
+            System.Diagnostics.Debug.WriteLine("Create new senderChannel");
+            senderChannel = Channel.CreateUnbounded<SendParameters>();
+            var reader = senderChannel.Reader;
+            
+            await Task.Factory.StartNew(async () =>
+            {
+                System.Diagnostics.Debug.WriteLine("Start sender Task");
+                // Wait while channel is not empty and still not completed
+                while (await reader.WaitToReadAsync())
+                {
+                    var sendParams = await reader.ReadAsync();
+                    
+                    if (sendParams.XmppXElement != null)
                     {
+                        if (sendParams.XmppXElement.OfType<Xmpp.Client.Stream>()
+                            && sendParams.XmppXElement.Cast<Xmpp.Base.Stream>().IsStartTag
+                            && streamHeaderSent)
+                        {
+                            streamParser.Reset();
+                        }
+                        beforeXmlSentSubject.OnNext(sendParams.XmppXElement);   
+                    }
+
+                    try
+                    {
+                        await networkStream.WriteAsync(sendParams.Bytes, 0, sendParams.Bytes.Length, sendParams.CancellationToken).ConfigureAwait(false);
+                        
+                        dataSentSubject.OnNext(sendParams.Bytes);
+                        if (sendParams.XmppXElement != null)
+                        {
+                            xmlSentSubject.OnNext(sendParams.XmppXElement);
+                        }
+                        System.Diagnostics.Debug.WriteLine("Sent data");
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisconnectAsync();
+                    }
+
+                }
+            
+                System.Diagnostics.Debug.WriteLine("Exit Sender Task");
+            }, TaskCreationOptions.LongRunning);
+        }
+
+        private async Task ReceiverTask(/*CancellationToken cancellationToken*/)
+        {
+            await Task.Factory.StartNew(async () =>
+            {
+                System.Diagnostics.Debug.WriteLine("Enter Receiver Task");
+                bool cancelRead = false;
+                var bytes = new byte[ReceiveBufferSize];
+                //while (!cancellationToken.IsCancellationRequested)
+                while (!cancelRead)
+                {
+                    try
+                    {
+                        var bytesRead = await networkStream.ReadAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
+                        System.Diagnostics.Debug.WriteLine("Data was read");
+                        if (bytesRead == 0)
+                        {
+                        
+                            senderChannel?.Writer.TryComplete();
+                            TransportStateSubject.Value = State.Disconnected;
+                            break;
+                        }
+
+                        if (!isSecure)
+                        {
+                            var text = Encoding.UTF8.GetString(bytes, 0, bytesRead);
+                            if (text.StartsWith("<proceed"))
+                            {
+                                cancelRead = true;
+                            }
+                        }
+
+                        dataReceivedSubject.OnNext(bytes.Take(bytesRead).ToArray());
+                        streamParser.Write(bytes, 0, bytesRead);
+                    }
+                    catch (IOException)
+                    {
+                        /*
+                         * exception occurs usually when the underlying socket was
+                         * closed or aborted remotely or by the host.
+                         * Inner exception could tell us more about the reason. For now
+                         * we don't care and forward the reason, because the outcome is always the same.
+                         */
+                        senderChannel?.Writer.TryComplete();
                         TransportStateSubject.Value = State.Disconnected;
                         break;
                     }
-
-                    if (!isSecure)
-                    {
-                        var text = Encoding.UTF8.GetString(bytes, 0, bytesRead);
-                        if (text.StartsWith("<proceed"))
-                        {
-                            cancelRead = true;
-                        }
-                    }
-
-                    dataReceivedSubject.OnNext(bytes.Take(bytesRead).ToArray());
-                    streamParser.Write(bytes, 0, bytesRead);
-
                 }
-                catch (IOException)
-                {
-                    /*
-                     * exception occurs usually when the underlying socket was
-                     * closed or aborted remotely or by the host.
-                     * Inner exception could tell us more about the reason. For now
-                     * we don't care and forward the reason, because the outcome is always the same.
-                     */
-                    TransportStateSubject.Value = State.Disconnected;
-                    break;
-                }
-            }
+            
+                System.Diagnostics.Debug.WriteLine("Exit Receiver Task");
+            }, TaskCreationOptions.LongRunning);
+            
         }
 
         public async Task InitTls(string xmppDomain)
@@ -333,7 +396,6 @@
             ).ConfigureAwait(false);
             */
 
-
             networkStream = new SslStream(
               networkStream,
               true,
@@ -350,7 +412,8 @@
 
             isSecure = true;
 
-            StartReceiverTask();
+            _ = Task.Run(ReceiverTask);
+
         }
 
         /*

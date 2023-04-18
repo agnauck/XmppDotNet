@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Threading.Channels" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\XmppDotNet.Core\XmppDotNet.Core.csproj" />
     <ProjectReference Include="..\XmppDotNet.Srv\XmppDotNet.Srv.csproj" />
   </ItemGroup>
