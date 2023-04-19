@@ -85,5 +85,33 @@ namespace XmppDotNet.Tests.Xml
             var streamHeader = new Stream() { IsEndTag = true };
             streamHeader.ToString().ShouldBe("</stream:stream>");
         }
+
+
+        [Fact]
+        public void ShouldCreateFirstChildElement()
+        {
+            var el = new XmppXElement("foo", "a");
+            el.FirstXmppXElement = new XmppXElement("foo", "b");
+            
+            el.ShouldBe("<a xmlns='foo'><b /></a>");
+
+
+            var el2 = 
+                new XmppXElement("foo", "a") 
+                {
+                    FirstXmppXElement = new XmppXElement("foo", "b")
+                };            
+
+            el2.ShouldBe("<a xmlns='foo'><b /></a>");
+
+            el2.FirstXmppXElement = new XmppXElement("foo", "c");
+            el2.ShouldBe("<a xmlns='foo'><c/></a>");
+
+
+            string xml = "<a xmlns='foo'><b>foo</b><c>foo</c></a>";
+            var el3 = XmppXElement.LoadXml(xml);
+            el3.FirstXmppXElement = new XmppXElement("foo", "c");
+            el3.ShouldBe("<a xmlns='foo'><c /><c>foo</c></a>");
+        }
     }
 }

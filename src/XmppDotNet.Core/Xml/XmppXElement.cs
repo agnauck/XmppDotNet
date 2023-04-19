@@ -956,7 +956,7 @@ namespace XmppDotNet.Xml
         public XElement FirstElement => Elements().FirstOrDefault();
 
         /// <summary>
-        /// returns the first XmppXElement
+        /// Gets or sets the first XmppXElement
         /// </summary>
         public XmppXElement FirstXmppXElement
         {
@@ -969,6 +969,19 @@ namespace XmppDotNet.Xml
                         return el as XmppXElement;
                 }
                 return null;
+            }
+            set
+            {
+                if (FirstXmppXElement == null) 
+                {
+                    AddFirst(value);
+                }
+                else
+                {
+                    var firstEl = FirstXmppXElement;
+                    firstEl.Remove();
+                    AddFirst(value);                    
+                }
             }
         }
 
