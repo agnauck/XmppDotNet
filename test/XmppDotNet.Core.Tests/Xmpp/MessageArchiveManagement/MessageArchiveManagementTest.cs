@@ -45,5 +45,43 @@
             };
             mamQuery.ShouldBe(MAM_QUERY);
         }
+
+        [Fact]
+        public void testFlippedPages()
+        {
+            string XML_FLIPPED = @"<iq xmlns='jabber:client' type='set' id='juliet1'>
+            <query xmlns='urn:xmpp:mam:2'>     
+                  <flip-page/>
+              </query>
+            </iq>";
+            
+            string XML_NOT_FLIPPED = @"<iq xmlns='jabber:client' type='set' id='juliet1'>
+            <query xmlns='urn:xmpp:mam:2'>    
+                  
+              </query>
+            </iq>";
+
+            var mamQuery = new IqQuery<MessageArchive>
+            {
+                Type = XmppDotNet.Xmpp.IqType.Set,
+                Id = "juliet1", 
+                Query =
+                {
+                    FlipPage = true
+                }
+            };
+            mamQuery.ShouldBe(XML_FLIPPED);
+            
+            var mamQuery2 = new IqQuery<MessageArchive>
+            {
+                Type = XmppDotNet.Xmpp.IqType.Set,
+                Id = "juliet1", 
+                Query =
+                {
+                    FlipPage = false
+                }
+            };
+            mamQuery2.ShouldBe(XML_NOT_FLIPPED);
+        }
     }
 }
