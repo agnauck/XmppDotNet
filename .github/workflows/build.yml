@@ -5,9 +5,9 @@ name: Build
 
 on:
   push:
-    branches: [ "XmppDotNet", "release-ci" ]
+    branches: [ "master", "release-ci" ]
   pull_request:
-    branches: [ "XmppDotNet" ]
+    branches: [ "master" ]
   workflow_dispatch:
     inputs:
       release:
