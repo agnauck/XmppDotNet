@@ -11,8 +11,8 @@ namespace XmppDotNet.Xmpp.Base
 
         public string Id
         {
-            get { return GetAttribute("id"); }
-            set { SetAttribute("id", value); }
+            get => GetAttribute("id");
+            set => SetAttribute("id", value);
         }
     }
 }
