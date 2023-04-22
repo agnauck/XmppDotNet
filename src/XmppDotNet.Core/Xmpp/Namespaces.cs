@@ -335,5 +335,10 @@ namespace XmppDotNet.Xmpp
         /// urn:xmpp:sid:0 (XEP-0359: Unique and Stable Stanza IDs)
         /// </summary>
         public const string StableStanzaIds = "urn:xmpp:sid:0";
+        
+        /// <summary>
+        /// urn:xmpp:occupant-id:0 (XEP-0421: Anonymous unique occupant identifiers for MUCs)
+        /// </summary>
+        public const string OccupantId = "urn:xmpp:occupant-id:0";
     }
 }
