@@ -1,5 +1,6 @@
 using XmppDotNet.Xmpp.Delay;
 using System;
+using XmppDotNet.Xmpp.Muc;
 
 namespace XmppDotNet.Xmpp.Base
 {
@@ -102,8 +103,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The delay.</value>
         public Delay.Delay Delay
         {
-            get { return Element<Delay.Delay>(); }
-            set { Replace(value); }
+            get => Element<Delay.Delay>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -112,8 +113,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The X delay.</value>
         public XDelay XDelay
         {
-            get { return Element<XDelay>(); }
-            set { Replace(value); }
+            get => Element<XDelay>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -132,8 +133,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The muc.</value>
         public Muc.X Muc
         {
-            get { return Element<Muc.X>(); }
-            set { Replace(value); }
+            get => Element<Muc.X>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -142,8 +143,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The muc user.</value>
         public Muc.User.X MucUser
         {
-            get { return Element<Muc.User.X>(); }
-            set { Replace(value); }
+            get => Element<Muc.User.X>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -152,8 +153,17 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The caps.</value>
         public Capabilities.Caps Caps
         {
-            get { return Element<Capabilities.Caps>(); }
-            set { Replace(value); }
+            get => Element<Capabilities.Caps>();
+            set => Replace(value);
+        }
+        
+        /// <summary>
+        /// Gets or Sets the occupant Id (XEP-0421)
+        /// </summary>
+        public OccupantId OccupantId
+        {
+            get => Element<OccupantId>();
+            set => Replace(value);
         }
         #endregion
     }

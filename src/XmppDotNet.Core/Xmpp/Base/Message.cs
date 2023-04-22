@@ -4,6 +4,7 @@ using XmppDotNet.Xmpp.Delay;
 using XmppDotNet.Xmpp.ExtendedStanzaAddressing;
 using XmppDotNet.Xmpp.LastMessageCorrection;
 using XmppDotNet.Xmpp.MessageCarbons;
+using XmppDotNet.Xmpp.Muc;
 using XmppDotNet.Xmpp.Nickname;
 using XmppDotNet.Xmpp.Receipts;
 using XmppDotNet.Xmpp.RosterItemExchange;
@@ -397,6 +398,15 @@ namespace XmppDotNet.Xmpp.Base
         public ReferencedStanzaId ReferencedStanzaId
         {
             get => Element<ReferencedStanzaId>();
+            set => Replace(value);
+        }
+        
+        /// <summary>
+        /// Gets or Sets the occupant Id (XEP-0421)
+        /// </summary>
+        public OccupantId OccupantId
+        {
+            get => Element<OccupantId>();
             set => Replace(value);
         }
         #endregion
