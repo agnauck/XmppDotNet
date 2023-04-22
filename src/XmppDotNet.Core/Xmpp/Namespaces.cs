@@ -330,5 +330,10 @@ namespace XmppDotNet.Xmpp
         /// urn:xmpp:bookmarks:1 (XEP-0402: PEP Native Bookmarks)
         /// </summary>
         public const string Bookmarks1 = "urn:xmpp:bookmarks:1";
+
+        /// <summary>
+        /// urn:xmpp:sid:0 (XEP-0359: Unique and Stable Stanza IDs)
+        /// </summary>
+        public const string StableStanzaIds = "urn:xmpp:sid:0";
     }
 }

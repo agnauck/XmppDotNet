@@ -9,6 +9,7 @@ using XmppDotNet.Xmpp.Receipts;
 using XmppDotNet.Xmpp.RosterItemExchange;
 using XmppDotNet.Xmpp.SecurityLabels;
 using XmppDotNet.Xmpp.Shim;
+using XmppDotNet.Xmpp.StableStanzaIds;
 using XmppDotNet.Xmpp.XData;
 using XmppDotNet.Xmpp.XHtmlIM;
 using Received = XmppDotNet.Xmpp.Receipts.Received;
@@ -32,8 +33,8 @@ namespace XmppDotNet.Xmpp.Base
         /// </summary>
         public string Body
         {
-            set { SetTag(Tag.Body, value); }
-            get { return GetTag(Tag.Body); }
+            set => SetTag(Tag.Body, value);
+            get => GetTag(Tag.Body);
         }
 
         /// <summary>
@@ -41,8 +42,8 @@ namespace XmppDotNet.Xmpp.Base
         /// </summary>
         public string Subject
         {
-            set { SetTag(Tag.Subject, value); }
-            get { return GetTag(Tag.Subject); }
+            set => SetTag(Tag.Subject, value);
+            get => GetTag(Tag.Subject);
         }
 
         /// <summary>
@@ -51,8 +52,8 @@ namespace XmppDotNet.Xmpp.Base
         /// </summary>
         public string Thread
         {
-            set { SetTag(Tag.Thread, value); }
-            get { return GetTag(Tag.Thread); }
+            set => SetTag(Tag.Thread, value);
+            get => GetTag(Tag.Thread);
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace XmppDotNet.Xmpp.Base
         /// </summary>
         public MessageType Type
         {
-            get { return GetAttributeEnum<MessageType>("type"); }
+            get => GetAttributeEnum<MessageType>("type");
             set
             {
                 if (value == MessageType.Normal)
@@ -76,10 +77,7 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>
         /// <c>true</c> if this instance is roster exchange; otherwise, <c>false</c>.
         /// </value>
-        public bool IsRosterExchange
-        {
-            get { return Element<Exchange>() != null; }
-        }
+        public bool IsRosterExchange => Element<Exchange>() != null;
 
         /// <summary>
         /// Gets a value indicating whether this message is a received carbon message
@@ -87,21 +85,15 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>
         /// <c>true</c> if this instance is a received carbon message; otherwise, <c>false</c>.
         /// </value>
-        public bool IsReceivedCarbon
-        {
-            get { return Element<MessageCarbons.Received>() != null; }
-        }
-        
+        public bool IsReceivedCarbon => Element<MessageCarbons.Received>() != null;
+
         /// <summary>
         /// Gets a value indicating whether this message is a sent carbon message
         /// </summary>
         /// <value>
         /// <c>true</c> if this instance is a sent carbon message; otherwise, <c>false</c>.
         /// </value>
-        public bool IsSentCarbon
-        {
-            get { return Element<Sent>() != null; }
-        }
+        public bool IsSentCarbon => Element<Sent>() != null;
 
         /// <summary>
         /// Gets a value indicating whether this message is a carbon message, either sent or received
@@ -109,10 +101,7 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>
         /// <c>true</c> if this instance is a carbon message; otherwise, <c>false</c>.
         /// </value>
-        public bool IsCarbon
-        {
-            get { return IsReceivedCarbon || IsSentCarbon; }
-        }
+        public bool IsCarbon => IsReceivedCarbon || IsSentCarbon;
 
         /// <summary>
         /// The sent Carbon object.
@@ -120,10 +109,7 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>
         /// The sent carbon object, or null when this message contains no sent carbon.
         /// </value>
-        public Sent SentCarbon
-        {
-            get { return Element<Sent>(); }
-        }
+        public Sent SentCarbon => Element<Sent>();
 
         /// <summary>
         /// The received Carbon object.
@@ -131,10 +117,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>
         /// The received carbon object, or null when this message contains no received carbon.
         /// </value>
-        public MessageCarbons.Received ReceivedCarbon
-        {
-            get { return Element<MessageCarbons.Received>(); }
-        }
+        public MessageCarbons.Received ReceivedCarbon => Element<MessageCarbons.Received>();
+
         #endregion
 
         #region << Methods and Functions >>
@@ -226,8 +210,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The nick.</value>
         public Nick Nick
         {
-            get { return Element<Nick>(); }
-            set { Replace(value); }
+            get => Element<Nick>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -236,8 +220,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The delay.</value>
         public Delay.Delay Delay
         {
-            get { return Element<Delay.Delay>(); }
-            set { Replace(value); }
+            get => Element<Delay.Delay>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -246,8 +230,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The X delay.</value>
         public XDelay XDelay
         {
-            get { return Element<XDelay>(); }
-            set { Replace(value); }
+            get => Element<XDelay>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -256,8 +240,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The X data.</value>
         public Data XData
         {
-            get { return Element<Data>(); }
-            set { Replace(value); }
+            get => Element<Data>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -268,8 +252,8 @@ namespace XmppDotNet.Xmpp.Base
         /// </value>
         public Muc.User.X XMucUser
         {
-            get { return Element<Muc.User.X>(); }
-            set { Replace(value); }
+            get => Element<Muc.User.X>();
+            set => Replace(value);
         }
         
         /// <summary>
@@ -278,8 +262,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The X HTML.</value>
         public Html XHtml
         {
-            get { return Element<Html>(); }
-            set { Replace(value); }
+            get => Element<Html>();
+            set => Replace(value);
         }
 
         /// <summary>
@@ -290,8 +274,8 @@ namespace XmppDotNet.Xmpp.Base
         /// </value>
         public SecurityLabel SecurityLabel
         {
-            get { return Element<SecurityLabel>(); }
-            set { Replace(value); }
+            get => Element<SecurityLabel>();
+            set => Replace(value);
         }
         
         /// <summary>
@@ -300,8 +284,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The nick.</value>
         public Replace Replace
         {
-            get { return Element<Replace>(); }
-            set { Replace(value); }
+            get => Element<Replace>();
+            set => Replace(value);
         }
 
         #region << Chatstate Properties >>
@@ -367,8 +351,8 @@ namespace XmppDotNet.Xmpp.Base
         /// <value>The nick.</value>
         public Addresses Addresses
         {
-            get { return Element<Addresses>(); }
-            set { Replace(value, true); }
+            get => Element<Addresses>();
+            set => Replace(value, true);
         }
 
         /// <summary>
@@ -376,8 +360,8 @@ namespace XmppDotNet.Xmpp.Base
         /// </summary>
         public Headers Headers
         {
-            get { return Element<Headers>(); }
-            set { Replace(value, true); }
+            get => Element<Headers>();
+            set => Replace(value, true);
         }
 
         /// <summary>
@@ -385,8 +369,35 @@ namespace XmppDotNet.Xmpp.Base
         /// </summary>
         public Client.Error Error
         {
-            get { return Element<Client.Error>(); }
-            set { Replace(value); }
+            get => Element<Client.Error>();
+            set => Replace(value);
+        }
+
+        /// <summary>
+        /// Gets or Set the dtanza id
+        /// </summary>
+        public StanzaId StanzaId
+        {
+            get => Element<StanzaId>();
+            set => Replace(value);
+        }
+        
+        /// <summary>
+        /// Gets or sets the origin id
+        /// </summary>
+        public OriginId OriginId
+        {
+            get => Element<OriginId>();
+            set => Replace(value);
+        }
+        
+        /// <summary>
+        /// Gets or Sets the referenced stanza id
+        /// </summary>
+        public ReferencedStanzaId ReferencedStanzaId
+        {
+            get => Element<ReferencedStanzaId>();
+            set => Replace(value);
         }
         #endregion
     }
