@@ -1,4 +1,8 @@
-﻿namespace XmppDotNet.Tests.Xmpp.MessageArchiveManagement
+﻿using XmppDotNet.Xmpp;
+using XmppDotNet.Xmpp.ResultSetManagement;
+using XmppDotNet.Xmpp.XData;
+
+namespace XmppDotNet.Tests.Xmpp.MessageArchiveManagement
 {
     using XmppDotNet.Xml;
     using XmppDotNet.Xmpp.Client;
@@ -47,7 +51,7 @@
         }
 
         [Fact]
-        public void testFlippedPages()
+        public void TestFlippedPages()
         {
             string XML_FLIPPED = @"<iq xmlns='jabber:client' type='set' id='juliet1'>
             <query xmlns='urn:xmpp:mam:2'>     
@@ -82,6 +86,94 @@
                 }
             };
             mamQuery2.ShouldBe(XML_NOT_FLIPPED);
+        }
+
+        [Fact]
+        public void TestMamQueryWithResultSet()
+        {
+            string XML = @"<iq type='result' id='q29302' xmlns='jabber:client'>
+                          <fin xmlns='urn:xmpp:mam:2'>
+                            <set xmlns='http://jabber.org/protocol/rsm'>
+                              <first index='0'>28482-98726-73623</first>
+                              <last>09af3-cc343-b409f</last>
+                              <count>20</count>
+                            </set>
+                          </fin>
+                        </iq>";
+
+            var iq = XmppXElement.LoadXml(XML);
+            var fin = iq.Element<Final>();
+            fin.ResultSet.ShouldNotBeNull();
+            fin.ResultSet.First.Index.ShouldBe(0);
+            fin.ResultSet.First.Value.ShouldBe("28482-98726-73623");
+            fin.ResultSet.Last.ShouldBe("09af3-cc343-b409f");
+            fin.ResultSet.Count.ShouldBe(20);
+            
+            var mamQuery2 = new IqQuery<Final>
+            {
+                Type = IqType.Result,
+                Id = "q29302", 
+                Query =
+                {
+                    ResultSet = new Set
+                    {
+                        First = new First
+                        {
+                            Index = 0,
+                            Value = "28482-98726-73623"
+                        },
+                        Last = "09af3-cc343-b409f",
+                        Count = 20
+                    }
+                   
+                }
+            };
+            mamQuery2.ShouldBe(XML);
+        }
+
+        [Fact]
+        public void TestMamQueryWithXData()
+        {
+            string XML = @"<iq type='set' id='juliet1' xmlns='jabber:client'>
+                    <query xmlns='urn:xmpp:mam:2'>
+                        <x xmlns='jabber:x:data' type='submit'>
+                            <field var='FORM_TYPE' type='hidden'>
+                                <value>urn:xmpp:mam:2</value>
+                            </field>
+                            <field var='with'>
+                                <value>juliet@capulet.lit</value>
+                            </field>
+                        </x>
+                    </query>
+                </iq>";
+            
+            var mamQuery2 = new IqQuery<MessageArchive>
+            {
+                Type = IqType.Set,
+                Id = "juliet1", 
+                Query =
+                {
+                    XData =new Data
+                    {
+                        Type = FormType.Submit,
+                        Fields = new []
+                        {
+                            new Field
+                            {
+                                Var = "FORM_TYPE",
+                                Type = FieldType.Hidden,
+                                Values = new [] { Namespaces.MessageArchiveManagement }
+                            },
+                            new Field
+                            {
+                                Var = "with",
+                                Values = new [] { "juliet@capulet.lit" }
+                            }
+                        }
+                    }
+                }
+            };
+            mamQuery2.ShouldBe(XML);
         }
     }
 }

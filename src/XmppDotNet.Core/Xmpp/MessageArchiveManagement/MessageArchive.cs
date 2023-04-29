@@ -1,10 +1,11 @@
 ﻿using XmppDotNet.Attributes;
 using XmppDotNet.Xml;
+using XmppDotNet.Xmpp.Base;
 
 namespace XmppDotNet.Xmpp.MessageArchiveManagement
 {
     [XmppTag(Name = Tag.Query, Namespace = Namespaces.MessageArchiveManagement)]
-    public class MessageArchive : XmppXElement
+    public class MessageArchive : XmppXElementWithResultSetAndXData
     {
         protected MessageArchive(string tagName)
             : base(Namespaces.MessageArchiveManagement, tagName)
