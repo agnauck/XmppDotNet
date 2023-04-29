@@ -17,8 +17,8 @@ namespace XmppDotNet.Xmpp.Base
         /// </value>
         public Set ResultSet
         {
-            get { return Element<Set>(); }
-            set { Replace(value); }
+            get => Element<Set>();
+            set => Replace(value);
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿namespace XmppDotNet.Xmpp.MessageArchiveManagement
-{
-    using XmppDotNet.Attributes;
-    using XmppDotNet.Xml;
-    using ResultSetManagement;
+﻿using XmppDotNet.Xmpp.Base;
+using XmppDotNet.Attributes;
+using XmppDotNet.Xmpp.ResultSetManagement;
 
+namespace XmppDotNet.Xmpp.MessageArchiveManagement
+{
     [XmppTag(Name = "fin", Namespace = Namespaces.MessageArchiveManagement)]
-    public class Final : XmppXElement
+    public class Final : XmppXElementWithResultSet
     {
         public Final() : base(Namespaces.MessageArchiveManagement, "fin")
         {
@@ -18,18 +18,6 @@
         {
             get => GetAttributeBool("complete");
             set => SetAttribute("complete", value);
-        }
-
-        /// <summary>
-        /// Gets or sets the result set.
-        /// </summary>
-        /// <value>
-        /// The result set.
-        /// </value>
-        public Set ResultSet
-        {
-            get { return Element<Set>(); }
-            set { Replace(value); }
         }
     }
 }
