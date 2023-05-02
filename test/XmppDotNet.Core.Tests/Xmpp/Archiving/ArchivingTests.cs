@@ -138,7 +138,7 @@ namespace XmppDotNet.Tests.Xmpp.Archiving
                     Start = new DateTime(1469, 07, 21, 2, 56, 15, DateTimeKind.Utc),
                     ResultSet = new XmppDotNet.Xmpp.ResultSetManagement.Set
                     {
-                        Maximum = 100
+                        Max = 100
                     }
                 }
             }

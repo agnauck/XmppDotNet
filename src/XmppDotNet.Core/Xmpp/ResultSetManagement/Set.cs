@@ -28,7 +28,8 @@ namespace XmppDotNet.Xmpp.ResultSetManagement
         #endregion
 
         public Set() : base(Namespaces.Rsm, "set")
-        {}
+        {
+        }
 
         /// <summary>
         /// Gets or sets the maximum for limiting the number of items.
@@ -36,16 +37,16 @@ namespace XmppDotNet.Xmpp.ResultSetManagement
         /// <value>
         /// The maximum.
         /// </value>
-        public int Maximum
+        public int Max
         {
-            get { return GetTagInt("max"); }
-            set { SetTag("max", value); }
+            get => GetTagInt("max");
+            set => SetTag("max", value);
         }
 
         public int Index
         {
-            get { return GetTagInt("index"); }
-            set { SetTag("index", value); }
+            get => GetTagInt("index");
+            set => SetTag("index", value);
         }
 
         /// <summary>
@@ -56,20 +57,20 @@ namespace XmppDotNet.Xmpp.ResultSetManagement
         /// </value>
         public int Count
         {
-            get { return GetTagInt("count"); }
-            set { SetTag("count", value); }
+            get => GetTagInt("count");
+            set => SetTag("count", value);
         }
 
         public string After
         {
-            get { return GetTag("after"); }
-            set { SetTag("after", value); }
+            get => GetTag("after");
+            set => SetTag("after", value);
         }
 
         public string Before
         {
-            get { return GetTag("before"); }
-            set { SetTag("before", value); }
+            get => GetTag("before");
+            set => SetTag("before", value);
         }
 
         /// <summary>
@@ -80,8 +81,8 @@ namespace XmppDotNet.Xmpp.ResultSetManagement
         /// </value>
         public string Last
         {
-            get { return GetTag("last"); }
-            set { SetTag("last", value); }
+            get => GetTag("last");
+            set => SetTag("last", value);
         }
 
         /// <summary>
@@ -92,8 +93,8 @@ namespace XmppDotNet.Xmpp.ResultSetManagement
         /// </value>
         public First First
         {
-            get { return Element<First>(); }
-            set { Replace(value); }
+            get => Element<First>();
+            set => Replace(value);
         }
     }
 }
