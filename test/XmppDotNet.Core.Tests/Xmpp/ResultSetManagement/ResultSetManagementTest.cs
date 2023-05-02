@@ -17,13 +17,13 @@ namespace XmppDotNet.Tests.Xmpp.ResultSetManagement
         public void TestSet()
         {
             var set = XmppXElement.LoadXml(Resource.Get("Xmpp.ResultSetManagement.set1.xml")).Cast<Set>();
-            Assert.Equal(10, set.Maximum);
+            Assert.Equal(10, set.Max);
         }
 
         [Fact]
         public void TestBuildSet()
         {
-            new Set { Maximum = 10 }.ShouldBe(Resource.Get("Xmpp.ResultSetManagement.set1.xml"));
+            new Set { Max = 10 }.ShouldBe(Resource.Get("Xmpp.ResultSetManagement.set1.xml"));
         }
 
         [Fact]
