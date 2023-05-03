@@ -82,6 +82,14 @@ namespace XmppDotNet.Xmpp.Base
         public bool IsRosterExchange => Element<Exchange>() != null;
 
         /// <summary>
+        /// Gets a value indicating whether this message is a correction message
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is a correction message; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsMessageCorrection => Element<Replace>() != null;
+        
+        /// <summary>
         /// Gets a value indicating whether this message is a received carbon message
         /// </summary>
         /// <value>
