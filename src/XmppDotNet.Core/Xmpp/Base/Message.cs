@@ -3,6 +3,7 @@ using XmppDotNet.Xmpp.Chatstates;
 using XmppDotNet.Xmpp.Delay;
 using XmppDotNet.Xmpp.ExtendedStanzaAddressing;
 using XmppDotNet.Xmpp.LastMessageCorrection;
+using XmppDotNet.Xmpp.MessageArchiveManagement;
 using XmppDotNet.Xmpp.MessageCarbons;
 using XmppDotNet.Xmpp.Muc;
 using XmppDotNet.Xmpp.Nickname;
@@ -120,6 +121,22 @@ namespace XmppDotNet.Xmpp.Base
         /// </value>
         public MessageCarbons.Received ReceivedCarbon => Element<MessageCarbons.Received>();
 
+        
+        /// <summary>
+        /// Gets a value indicating whether this message is a MAM result
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is a MAM result message; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsMamResult => Element<Result>() != null;
+
+        /// <summary>
+        /// The Mam result object.
+        /// </summary>
+        /// <value>
+        /// The Mam result object, or null when this message contains no Mam result.
+        /// </value>
+        public Result MamResult => Element<Result>();
         #endregion
 
         #region << Methods and Functions >>

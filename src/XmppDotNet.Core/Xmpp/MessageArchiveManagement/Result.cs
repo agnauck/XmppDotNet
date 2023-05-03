@@ -1,4 +1,5 @@
 ﻿using XmppDotNet.Attributes;
+using XmppDotNet.Xmpp.Forward;
 
 namespace XmppDotNet.Xmpp.MessageArchiveManagement
 {
@@ -16,6 +17,18 @@ namespace XmppDotNet.Xmpp.MessageArchiveManagement
         {
             get => GetAttribute("id");
             set => SetAttribute("id", value);
+        }
+        
+        /// <summary>
+        /// Gets or sets the forwarded.
+        /// </summary>
+        /// <value>
+        /// The forwarded.
+        /// </value>
+        public Forwarded Forwarded
+        {
+            get => Element<Forwarded>();
+            set => Replace(value);
         }
     }
 }

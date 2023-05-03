@@ -175,5 +175,31 @@ namespace XmppDotNet.Tests.Xmpp.MessageArchiveManagement
             };
             mamQuery2.ShouldBe(XML);
         }
+
+        [Fact]
+        public void TestMamMessage()
+        {
+            string XML = @"<message to='romeo@palaver.im/1136298492271220274312957890' from='xsf@muc.xmpp.org' xmlns='jabber:client'>
+                <result xmlns='urn:xmpp:mam:2' id='2023-05-03-15cd4bcb5c732264' queryid='28ca889c-6a5a-41f0-accd-edbd2810487d'>
+                    <forwarded xmlns='urn:xmpp:forward:0'>
+                        <delay xmlns='urn:xmpp:delay' stamp='2023-05-03T14:05:57Z' />
+                        <message xmlns='jabber:client' id='59faed25-f40e-43e5-949e-bc4de5855918' xml:lang='en' type='groupchat' from='xsf@muc.xmpp.org/edhelas'>
+                            <active xmlns='http://jabber.org/protocol/chatstates' />
+                            <origin-id xmlns='urn:xmpp:sid:0' id='59faed25-f40e-43e5-949e-bc4de5855918' />
+                            <body>Hello World</body>
+                            <occupant-id xmlns='urn:xmpp:occupant-id:0' id='cVCDehgrfs11FZL0SRpjNtjuGeRt3c2stgYd+HcLY=' />
+                        </message>
+                    </forwarded>
+                </result>
+            </message>";
+
+            var msg = XmppXElement.LoadXml(XML).Cast<Message>();
+            
+            msg.IsMamResult.ShouldBeTrue();
+            msg.MamResult.Forwarded.ShouldNotBeNull();
+            msg.MamResult.Forwarded.Message .ShouldNotBeNull();
+            msg.MamResult.Forwarded.Message.Body.ShouldBe("Hello World");
+            msg.MamResult.Forwarded.Message.OccupantId.Id.ShouldBe("cVCDehgrfs11FZL0SRpjNtjuGeRt3c2stgYd+HcLY=");
+        }
     }
 }

@@ -4,6 +4,7 @@ using Xunit;
 
 using Shouldly;
 using XmppDotNet.Xmpp.Client;
+using XmppDotNet.Xmpp.Forward;
 
 namespace XmppDotNet.Tests.Xmpp.MessageCarbons
 {
