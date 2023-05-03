@@ -4,17 +4,15 @@ using Xunit;
 
 using Shouldly;
 using XmppDotNet.Xmpp.Client;
-using XmppDotNet.Xmpp.Forward;
 
 namespace XmppDotNet.Tests.Xmpp.MessageCarbons
 {
-    
     public class MessageCarbonTest
     {
         [Fact]
         public void ShouldBeOfTypeForwarded()
         {
-            XmppXElement.LoadXml(Resource.Get("Xmpp.MessageCarbons.forwarded1.xml")).ShouldBeOfType<Forwarded>();
+            XmppXElement.LoadXml(Resource.Get("Xmpp.MessageCarbons.forwarded1.xml")).ShouldBeOfType<XmppDotNet.Xmpp.Forward.Forwarded>();
         }
 
         [Fact]
