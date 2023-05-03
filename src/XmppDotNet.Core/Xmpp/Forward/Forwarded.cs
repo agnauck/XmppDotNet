@@ -14,5 +14,15 @@ namespace XmppDotNet.Xmpp.Forward
             get => Element<Message>();
             set => Replace(value);
         }
+        
+        /// <summary>
+        /// Gets or sets the <see cref="Delay"/>.
+        /// </summary>
+        /// <value>The delay.</value>
+        public Delay.Delay Delay
+        {
+            get => Element<Delay.Delay>();
+            set => Replace(value);
+        }
     }
 }
