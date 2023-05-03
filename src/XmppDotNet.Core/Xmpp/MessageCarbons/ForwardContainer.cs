@@ -1,3 +1,5 @@
+using XmppDotNet.Xmpp.Forward;
+
 namespace XmppDotNet.Xmpp.MessageCarbons
 {
     public abstract class ForwardContainer : CarbonBase
@@ -12,8 +14,8 @@ namespace XmppDotNet.Xmpp.MessageCarbons
         /// </value>
         public Forwarded Forwarded
         {
-            get { return Element<Forwarded>(); }
-            set { Replace(value); }
+            get => Element<Forwarded>();
+            set => Replace(value);
         }
     }
 }
