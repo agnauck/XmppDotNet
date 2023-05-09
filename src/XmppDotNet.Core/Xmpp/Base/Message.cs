@@ -7,6 +7,7 @@ using XmppDotNet.Xmpp.MessageArchiveManagement;
 using XmppDotNet.Xmpp.MessageCarbons;
 using XmppDotNet.Xmpp.Muc;
 using XmppDotNet.Xmpp.Nickname;
+using XmppDotNet.Xmpp.Oob;
 using XmppDotNet.Xmpp.Receipts;
 using XmppDotNet.Xmpp.RosterItemExchange;
 using XmppDotNet.Xmpp.SecurityLabels;
@@ -418,7 +419,7 @@ namespace XmppDotNet.Xmpp.Base
         }
         
         /// <summary>
-        /// Gets or Sets the referenced stanza id
+        /// Gets or sets the referenced stanza id
         /// </summary>
         public ReferencedStanzaId ReferencedStanzaId
         {
@@ -427,11 +428,20 @@ namespace XmppDotNet.Xmpp.Base
         }
         
         /// <summary>
-        /// Gets or Sets the occupant Id (XEP-0421)
+        /// Gets or sets the occupant Id (XEP-0421)
         /// </summary>
         public OccupantId OccupantId
         {
             get => Element<OccupantId>();
+            set => Replace(value);
+        }
+        
+        /// <summary>
+        /// Gets or sets out of band data for the message (XEP-0066)
+        /// </summary>
+        public XOob XOob
+        {
+            get => Element<XOob>();
             set => Replace(value);
         }
         #endregion
