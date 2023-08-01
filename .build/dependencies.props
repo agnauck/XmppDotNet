@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>   
-		<SystemReactiveVersion>5.0.0</SystemReactiveVersion>
+		<SystemReactiveVersion>6.0.0</SystemReactiveVersion>
 		<ShouldlyVersion>4.0.3</ShouldlyVersion>
 		<XunitVersion>2.4.1</XunitVersion>
 		<XunitRunnerVisualStudioVersion>2.4.3</XunitRunnerVisualStudioVersion>
