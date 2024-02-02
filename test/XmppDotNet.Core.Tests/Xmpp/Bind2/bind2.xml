@@ -1,0 +1,3 @@
+<bind xmlns='urn:xmpp:bind:0'>
+    <tag>AwesomeXMPP</tag>
+</bind>

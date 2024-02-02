@@ -16,6 +16,10 @@ namespace XmppDotNet.Xmpp.Sasl
         public Failure() : base(Namespaces.Sasl, "failure")
 		{			
 		}
+        
+        public Failure(string ns) : base(ns, "failure")
+        {			
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Failure"/> class.
@@ -36,7 +40,7 @@ namespace XmppDotNet.Xmpp.Sasl
             {
                 foreach (var failureCondition in Enum.GetValues<FailureCondition>().ToEnum<FailureCondition>())
                 {
-                     if (HasTag(failureCondition.GetName()))
+                     if (HasTag(Namespaces.Sasl, failureCondition.GetName()))
                         return failureCondition;
                 }
                 return FailureCondition.UnknownCondition;
@@ -44,7 +48,7 @@ namespace XmppDotNet.Xmpp.Sasl
             set
             {
                 if (value != FailureCondition.UnknownCondition)
-                    SetTag(value.GetName());
+                    SetTag(Namespaces.Sasl, value.GetName(), null);
             }
         }
 

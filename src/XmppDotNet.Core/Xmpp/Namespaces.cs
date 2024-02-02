@@ -340,5 +340,15 @@ namespace XmppDotNet.Xmpp
         /// urn:xmpp:occupant-id:0 (XEP-0421: Anonymous unique occupant identifiers for MUCs)
         /// </summary>
         public const string OccupantId = "urn:xmpp:occupant-id:0";
+
+        /// <summary>
+        /// urn:xmpp:sasl:2 (XEP-0386: Bind 2)
+        /// </summary>
+        public const string Sasl2 = "urn:xmpp:sasl:2";
+            
+        /// <summary>
+        /// urn:xmpp:bind:0 (XEP-0386: Bind 2)
+        /// </summary>
+        public const string Bind2 = "urn:xmpp:bind:0";
     }
 }

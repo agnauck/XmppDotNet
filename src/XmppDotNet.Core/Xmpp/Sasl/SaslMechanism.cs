@@ -19,6 +19,9 @@ namespace XmppDotNet.Xmpp.Sasl
         [Name("SCRAM-SHA-1")]
         ScramSha1,
         
+        [Name("SCRAM-SHA-1-PLUS")]
+        ScramSha1Plus,
+
         [Name("ANONYMOUS")]
         Anonymous,
 

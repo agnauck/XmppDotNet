@@ -18,6 +18,11 @@ namespace XmppDotNet.Xmpp.Sasl
             : base(Namespaces.Sasl, "mechanism")
         {
         }
+        
+        public Mechanism(string ns)
+            : base(ns, "mechanism")
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mechanism"/> class.
@@ -31,7 +36,7 @@ namespace XmppDotNet.Xmpp.Sasl
         #endregion
 
         /// <summary>
-        /// get or set the SASL mechanis as enum
+        /// get or set the SASL mechanism as enum
         /// </summary>
         /// <value>The sasl mechanism.</value>
         public SaslMechanism SaslMechanism
