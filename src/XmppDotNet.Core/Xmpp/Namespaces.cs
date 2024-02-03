@@ -350,5 +350,10 @@ namespace XmppDotNet.Xmpp
         /// urn:xmpp:bind:0 (XEP-0386: Bind 2)
         /// </summary>
         public const string Bind2 = "urn:xmpp:bind:0";
+
+        /// <summary>
+        /// urn:xmpp:csi:0 (XEP-0352: Client State Indication)
+        /// </summary>
+        public const string ClientStateIndication = "urn:xmpp:csi:0";
     }
 }
