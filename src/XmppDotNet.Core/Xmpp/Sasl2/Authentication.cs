@@ -10,5 +10,14 @@ namespace XmppDotNet.Xmpp.Sasl2
             : base(Namespaces.Sasl2, "authentication")
         {			
         }
+        
+        /// <summary>
+        /// The <see cref="Inline"/> Element
+        /// </summary>
+        public Inline Inline
+        {
+            get { return Element<Inline>(); }
+            set { Replace(value); }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using XmppDotNet.Attributes;
 using XmppDotNet.Xml;
+using XmppDotNet.Xmpp.Bind2;
 
 namespace XmppDotNet.Xmpp.Sasl2
 {
@@ -17,6 +18,15 @@ namespace XmppDotNet.Xmpp.Sasl2
         {
             get { return GetTagJid("authorization-identifier"); }
             set { SetTag("authorization-identifier", value); }
+        }
+        
+        /// <summary>
+        /// The <see cref="Bound"/> Element
+        /// </summary>
+        public Bound Bound
+        {
+            get { return Element<Bound>(); }
+            set { Replace(value); }
         }
     }
 }

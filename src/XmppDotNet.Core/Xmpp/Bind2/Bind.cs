@@ -15,5 +15,14 @@ namespace XmppDotNet.Xmpp.Bind2
             get { return GetTag("tag"); }
             set { SetTag("tag", value); }
         }
+        
+        /// <summary>
+        /// The <see cref="Inline"/> Element
+        /// </summary>
+        public Inline Inline
+        {
+            get { return Element<Inline>(); }
+            set { Replace(value); }
+        }
     }
 }

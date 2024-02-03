@@ -38,6 +38,11 @@ namespace XmppDotNet.Xmpp.Disco
             : base(Namespaces.DiscoInfo, "feature")
         {
         }
+        
+        public Feature(string ns, string tag)
+	        : base(ns, tag)
+        {
+        }
 
         public Feature(string var) : this()
         {

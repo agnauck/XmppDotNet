@@ -15,7 +15,7 @@ public class AuthenticationTest
         XmppXElement.LoadXml(Resource.Get("Xmpp.Sasl2.authentication1.xml"))
             .ShouldBeOfType<Authentication>();
     }
-    
+
     [Fact]
     public void TestAuthenticationMechanisms()
     {
@@ -28,5 +28,19 @@ public class AuthenticationTest
         auth.SupportsMechanism(SaslMechanism.ScramSha1).ShouldBeTrue();
         auth.SupportsMechanism(SaslMechanism.ScramSha1Plus).ShouldBeTrue();
         auth.SupportsMechanism(SaslMechanism.Plain).ShouldBeFalse();
+    }
+    
+    [Fact]
+    public void TestAuthenticationInline()
+    {
+        var auth 
+            = XmppXElement
+                .LoadXml(Resource.Get("Xmpp.Sasl2.authentication1.xml"))
+                .Cast<Authentication>();
+        
+        auth.Inline.ShouldNotBeNull();
+        auth.Inline.Bind.ShouldNotBeNull();
+        auth.Inline.Bind.Inline.ShouldNotBeNull();
+        auth.Inline.Bind.Inline.SupportMessageCarbons.ShouldBeTrue();
     }
 }

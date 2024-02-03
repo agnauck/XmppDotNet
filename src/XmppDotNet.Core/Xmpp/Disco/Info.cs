@@ -10,7 +10,7 @@ namespace XmppDotNet.Xmpp.Disco
     /// Disco Information
     /// </summary>
     [XmppTag(Name = Tag.Query, Namespace = Namespaces.DiscoInfo)]
-    public class Info : XmppXElement
+    public class Info : FeatureContainer
     {
         #region << Constructors >>
         /// <summary>
@@ -61,28 +61,7 @@ namespace XmppDotNet.Xmpp.Disco
         {
             Add(id);
         }
-
-        /// <summary>
-        /// Adds a feature.
-        /// </summary>
-        /// <returns></returns>
-        public Feature AddFeature()
-        {
-            var feat = new Feature();
-            Add(feat);
-            
-            return feat;
-        }
-
-        /// <summary>
-        /// Adds a feature.
-        /// </summary>
-        /// <param name="feature">The feature.</param>
-        public void AddFeature(Feature feature)
-        {
-            Add(feature);
-        }
-
+        
         /// <summary>
         /// Gets the identities.
         /// </summary>
@@ -91,28 +70,7 @@ namespace XmppDotNet.Xmpp.Disco
         {         
             return Elements<Identity>();            
         }
-
-        /// <summary>
-        /// Gets all Features
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Feature> GetFeatures()
-        {
-            return Elements<Feature>();
-        }
-
-        /// <summary>
-        /// Check if a feature is supported
-        /// </summary>
-        /// <param name="var">The var.</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified feature exists; otherwise, <c>false</c>.
-        /// </returns>
-        public bool HasFeature(string var)
-        {
-            return GetFeatures().Any(feat => feat.Var == var);
-        }
-
+        
         /// <summary>
         /// Gets all XData Froms
         /// </summary>

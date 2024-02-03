@@ -35,4 +35,19 @@ public class SuccessTest
         
         success.ShouldBe(Resource.Get("Xmpp.Sasl2.success.xml"));
     }
+    
+    [Fact]
+    public void TestSuccessProperties()
+    {
+        var success
+            = XmppXElement
+                .LoadXml(Resource.Get("Xmpp.Sasl2.success1.xml"))
+                .Cast<Success>();
+        
+        success.Bound.ShouldNotBeNull();
+        success.Bound.MetaData.ShouldNotBeNull();
+        
+        success.Bound.MetaData.Start.Id.ShouldBe("YWxwaGEg");
+        success.Bound.MetaData.End.Id.ShouldBe("b21lZ2Eg");
+    }
 }
