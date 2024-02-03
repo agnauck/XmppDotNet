@@ -1,0 +1,4 @@
+<failure xmlns='urn:xmpp:sasl:2'>
+    <aborted xmlns='urn:ietf:params:xml:ns:xmpp-sasl'/>
+    <text>This is a terrible example.</text>
+</failure>

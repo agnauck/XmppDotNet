@@ -1,0 +1,9 @@
+<authenticate xmlns='urn:xmpp:sasl:2' mechanism='SCRAM-SHA-1'>
+    <initial-response>[base64 encoded SASL data]</initial-response>
+    <bind xmlns='urn:xmpp:bind:0'>
+        <tag>AwesomeXMPP</tag>
+        <enable xmlns='urn:xmpp:carbons:2'/>
+        <enable xmlns='urn:xmpp:sm:3'/>
+        <inactive xmlns='urn:xmpp:csi:0'/>
+    </bind>
+</authenticate>

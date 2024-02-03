@@ -1,0 +1,3 @@
+<authenticate xmlns='urn:xmpp:sasl:2' mechanism='SCRAM-SHA-1'>
+    <initial-response>[base64 encoded SASL data]</initial-response>
+</authenticate>

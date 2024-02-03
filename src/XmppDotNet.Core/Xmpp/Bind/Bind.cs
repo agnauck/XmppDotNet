@@ -25,12 +25,12 @@ namespace XmppDotNet.Xmpp.Bind
 
 		public Bind(string resource) : this()
 		{		
-			Resource	= resource;
+			Resource = resource;
 		}
 
 		public Bind(Jid jid) : this()
 		{			
-			Jid		= jid;
+			Jid	= jid;
         }
         #endregion
 

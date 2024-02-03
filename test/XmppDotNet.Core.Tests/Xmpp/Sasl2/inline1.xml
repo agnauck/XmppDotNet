@@ -1,0 +1,10 @@
+<inline xmlns='urn:xmpp:sasl:2'>
+    <bind xmlns='urn:xmpp:bind:0'>
+        <inline>
+            <feature var="urn:xmpp:carbons:2" />
+            <feature var="urn:xmpp:csi:0" />
+            <feature var="urn:xmpp:sm:3" />
+        </inline>
+    </bind>
+    <sm xmlns='urn:xmpp:sm:3'/>
+</inline>

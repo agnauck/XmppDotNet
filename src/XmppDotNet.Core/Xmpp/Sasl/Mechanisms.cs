@@ -15,6 +15,11 @@ namespace XmppDotNet.Xmpp.Sasl
             : base(Namespaces.Sasl, "mechanisms")
         {            
         }
+        
+        internal Mechanisms(string ns, string tag)
+            : base(ns, tag)
+        {            
+        }
 
         public IEnumerable<Mechanism> GetMechanisms()
         {

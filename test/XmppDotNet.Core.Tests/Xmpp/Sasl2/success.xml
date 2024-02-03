@@ -1,0 +1,3 @@
+<success xmlns='urn:xmpp:sasl:2'>
+    <authorization-identifier>juliet@montague.example/Balcony/a987dsh9a87sdh</authorization-identifier>
+</success>
