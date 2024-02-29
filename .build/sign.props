@@ -2,6 +2,6 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>../../XmppDotNet.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-    <PublicSign>true</PublicSign>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
   </PropertyGroup>
 </Project>
