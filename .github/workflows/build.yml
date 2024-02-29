@@ -5,7 +5,7 @@ name: Build
 
 on:
   push:
-    branches: [ "master", "release-ci" ]
+    branches: [ "master", "release-ci", "strong-name" ]
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
