@@ -1,4 +1,4 @@
-#addin "Cake.FileHelpers"
+#addin nuget:?package=Cake.FileHelpers&version=7.0.0
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
