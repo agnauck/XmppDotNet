@@ -136,7 +136,7 @@ Task("Publish-Nuget")
             try
             {
                 // Push the package.
-                NuGetPush(package, new NuGetPushSettings {
+                DotNetNuGetPush(package, new DotNetNuGetPushSettings {
                     Source = BuildContext.NugetApiUrl,
                     ApiKey = BuildContext.NugetApiKey,
                     SkipDuplicate = true
