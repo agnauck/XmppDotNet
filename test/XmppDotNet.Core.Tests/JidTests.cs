@@ -21,7 +21,7 @@ namespace XmppDotNet.Tests
             const string domain = "domain.com";
 
             var jid = new Jid { Local = local, Domain = domain };
-            Assert.Equal(jid.ToString(), local + "@" + domain);
+            Assert.Equal(local + "@" + domain, jid.ToString());
         }
 
         [Fact]
@@ -46,11 +46,11 @@ namespace XmppDotNet.Tests
             const string domain = "Domain.com";
 
             var jid = new Jid { Local = local };
-            Assert.Equal(jid.Local, local);
+            Assert.Equal(local, jid.Local);
 
             jid.Domain = domain;
-            Assert.Equal(jid.Domain, domain);
-            Assert.Equal(jid.ToString(), local + "@" + domain);
+            Assert.Equal(domain, jid.Domain);
+            Assert.Equal(local + "@" + domain, jid.ToString());
 
             jid.SetLocal(local);
             jid.SetDomain(domain);
@@ -66,14 +66,14 @@ namespace XmppDotNet.Tests
             Jid jid1 = JID1;
             var jid2 = jid1.Clone();
 
-            Assert.Equal(jid1.ToString(), JID1);
-            Assert.Equal(jid2.ToString(), JID1);
+            Assert.Equal(JID1, jid1.ToString());
+            Assert.Equal(JID1, jid2.ToString());
 
             jid2.Resource = "resource2";
             jid2.Local = "local2";
 
-            Assert.Equal(jid1.ToString(), JID1);
-            Assert.Equal(jid2.ToString(), JID2);
+            Assert.Equal(JID1, jid1.ToString());
+            Assert.Equal(JID2, jid2.ToString());
         }
 
         [Fact]
