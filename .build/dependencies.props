@@ -1,11 +1,11 @@
 <Project>
 	<PropertyGroup>   
-		<SystemReactiveVersion>6.0.0</SystemReactiveVersion>
-		<ShouldlyVersion>4.0.3</ShouldlyVersion>
-		<XunitVersion>2.4.1</XunitVersion>
-		<XunitRunnerVisualStudioVersion>2.4.3</XunitRunnerVisualStudioVersion>
-		<MicrosoftNetTestSdk>17.1.0</MicrosoftNetTestSdk>
-		<MoqVersion>4.15.2</MoqVersion>
+		<SystemReactiveVersion>6.0.1</SystemReactiveVersion>
+		<ShouldlyVersion>4.3.0</ShouldlyVersion>
+		<XunitVersion>2.9.3</XunitVersion>
+		<XunitRunnerVisualStudioVersion>3.0.2</XunitRunnerVisualStudioVersion>
+		<MicrosoftNetTestSdk>17.13.0</MicrosoftNetTestSdk>
+		<MoqVersion>4.20.72</MoqVersion>
 		<PollyVersion>7.2.3</PollyVersion>
 	</PropertyGroup>
 </Project>

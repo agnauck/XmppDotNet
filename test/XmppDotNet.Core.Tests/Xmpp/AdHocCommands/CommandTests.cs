@@ -79,12 +79,12 @@ namespace XmppDotNet.Tests.Xmpp.AdHocCommands
                     Assert.True(actions.Next);
                     Assert.False(actions.Previous);
                     Assert.Equal(Action.Next, actions.Action);
-                    Assert.NotEqual(actions.Action, Action.Next | Action.Prev);
+                    Assert.NotEqual(Action.Next | Action.Prev, actions.Action);
 
                     // modify actions now and test again
                     actions.Action = Action.Next | Action.Prev;
-                    Assert.Equal(actions.Action, Action.Next | Action.Prev);
-                    Assert.NotEqual(actions.Action, Action.Next | Action.Complete);
+                    Assert.Equal(Action.Next | Action.Prev, actions.Action);
+                    Assert.NotEqual(Action.Next | Action.Complete, actions.Action);
                 }
             }
         }

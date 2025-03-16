@@ -1,4 +1,4 @@
-#addin "Cake.FileHelpers"
+#addin nuget:?package=Cake.FileHelpers&version=7.0.0
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -134,7 +134,7 @@ Task("Publish-Nuget")
             try
             {
                 // Push the package.
-                NuGetPush(package, new NuGetPushSettings {
+                DotNetNuGetPush(package, new DotNetNuGetPushSettings {
                     Source = BuildContext.NugetApiUrl,
                     ApiKey = BuildContext.NugetApiKey,
                     SkipDuplicate = true
@@ -143,8 +143,9 @@ Task("Publish-Nuget")
             catch(System.Exception ex)
             {
                 // ignore
+                Error(ex);
             }
-        }
+        }        
     }); 
    
 

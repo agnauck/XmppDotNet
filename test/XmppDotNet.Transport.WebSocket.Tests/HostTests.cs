@@ -1,4 +1,6 @@
-﻿namespace XmppDotNet.Transport.WebSocket.Tests
+﻿using System.Threading.Tasks;
+
+namespace XmppDotNet.Transport.WebSocket.Tests
 {
     using XmppDotNet.Transport.WebSocket;
     using Shouldly;
@@ -43,7 +45,7 @@
         }
 
         [Fact]
-        public async void Given_XmppDomain_Should_Return_Host()
+        public async Task Given_XmppDomain_Should_Return_Host()
         {
             var resolver = new WebSocketUriResolver();
             var uri = await resolver.ResolveUriAsync("palaver.im");
