@@ -21,20 +21,19 @@ namespace XmppDotNet.Srv
 
         private async Task<Uri> ResolveEndPointAsync(string xmppDomain, bool isClient = true)
         {
-            // try first to lookup direct TLS records
+            // try first to lookup direct TLS records (xmpps)
             var srvRecord = await LookupSrvRecords(xmppDomain, true, isClient).ConfigureAwait(false);
             if (srvRecord != null)
             {
                 return new Uri($"{Schemes.Tcps}://{srvRecord.Target}:{srvRecord.Port}");
             }
 
-            // if no direct tls resources found, fall back to starts tls records
+            // if no direct tls resources were found fall back to normal/start-tls records (xmpp)
             srvRecord = await LookupSrvRecords(xmppDomain, false, isClient).ConfigureAwait(false);
             if (srvRecord != null)
             {
-                return new Uri($"{Schemes.Tcps}://{srvRecord.Target}:{srvRecord.Port}");
+                return new Uri($"{Schemes.Tcp}://{srvRecord.Target}:{srvRecord.Port}");
             }
-
 
             return new Uri($"{Schemes.Tcp}://{xmppDomain}:5222");
         }
