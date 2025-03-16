@@ -127,12 +127,10 @@ Task("Publish-Nuget")
     .ContinueOnError()
     .Does(() =>
     {
-        Information("start publish nuget packages");
         // Get the paths to the packages.
         var packages = GetFiles("./src/**/XmppDotNet*.nupkg");
         foreach(var package in packages)
         {
-            Information("push: " + package);
             try
             {
                 // Push the package.
@@ -145,10 +143,9 @@ Task("Publish-Nuget")
             catch(System.Exception ex)
             {
                 // ignore
-                Information(ex);
+                Error(ex);
             }
-        }
-        Information("end push nuget packages");
+        }        
     }); 
    
 
