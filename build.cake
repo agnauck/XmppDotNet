@@ -1,5 +1,4 @@
 #addin nuget:?package=Cake.FileHelpers&version=7.0.0
-#tool nuget:?package=NuGet.CommandLine&version=6.13.2
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -128,7 +127,7 @@ Task("Publish-Nuget")
     .ContinueOnError()
     .Does(() =>
     {
-        Information("start pubblish nuget packages");
+        Information("start publish nuget packages");
         // Get the paths to the packages.
         var packages = GetFiles("./src/**/XmppDotNet*.nupkg");
         foreach(var package in packages)
