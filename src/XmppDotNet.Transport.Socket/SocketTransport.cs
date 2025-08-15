@@ -1,4 +1,7 @@
-﻿namespace XmppDotNet.Transport.Socket
+﻿using System.Collections.Generic;
+using System.Security.Authentication;
+
+namespace XmppDotNet.Transport.Socket
 {
     using System;
     using System.IO;
@@ -360,13 +363,28 @@
               null
            );
 
+#if !NETSTANDARD
+            var sslOptions = new SslClientAuthenticationOptions()
+            {
+                ApplicationProtocols = new List<SslApplicationProtocol>
+                {
+                    new("xmpp-client")
+                },
+                TargetHost = xmppDomain,
+                EnabledSslProtocols = SslProtocols.None
+            };
+
+            await ((SslStream)networkStream).AuthenticateAsClientAsync(
+                sslOptions
+            ).ConfigureAwait(false);
+#else
             await ((SslStream)networkStream).AuthenticateAsClientAsync(
                 xmppDomain,
                 null,
                 System.Security.Authentication.SslProtocols.None,
                 true
             ).ConfigureAwait(false);
-
+#endif
             isSecure = true;
 
             StartReceiverTask();

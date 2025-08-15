@@ -9,6 +9,10 @@
     <RootNamespace>XmppDotNet.Transport.Socket</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
+    <DefineConstants>NETSTANDARD</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\XmppDotNet.Core\XmppDotNet.Core.csproj" />
     <ProjectReference Include="..\XmppDotNet.Srv\XmppDotNet.Srv.csproj" />
