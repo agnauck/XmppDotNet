@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xmpp="https://linkmauve.fr/ns/xmpp-doap#"
+         xmlns:schema="https://schema.org/"
+         xmlns="http://usefulinc.com/ns/doap#">
+    <Project>
+        <name>XmppDotNet</name>
+        <short-name>xmppdotnet</short-name>
+
+        <shortdesc xml:lang="en">XMPP Library for dotnet</shortdesc>
+        <description xml:lang="en">
+            XmppDotNet is an Open Source XMPP library for the dotnet platform written in csharp. 
+            It can be embedded into your applications to create clients, servers or components.
+          It implements the XMPP Core protocols and many of the existing XEP enhancements, making it
+          a good candidate for many applcations that require XMPP functionality in dotnet.
+        </description>
+
+        <homepage rdf:resource="https://xmppdotnet.org/"/>
+        
+        <download-page rdf:resource="https://www.nuget.org/packages/XmppDotNet"/>
+        <support-forum rdf:resource="https://github.com/agnauck/XmppDotNet/issues"/>
+
+        <bug-database rdf:resource="https://github.com/agnauck/XmppDotNet/issues"/>
+        <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-xmpp"/>
+        <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-jabber"/>
+        <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-library"/>
+        <license rdf:resource="https://raw.githubusercontent.com/agnauck/XmppDotNet/refs/heads/master/COPYING.gpl"/>
+
+        <programming-language>dotnet</programming-language>
+        <os>Android</os>
+        <os>Linux</os>
+        <os>macOS</os>
+        <os>Windows</os>
+
+        <repository>
+            <GitRepository>
+                <location rdf:resource="https://github.com/agnauck/XmppDotNet.git"/>
+                <browse rdf:resource="https://github.com/agnauck/XmppDotNet"/>
+            </GitRepository>
+        </repository>
+
+    </Project>
+</rdf:RDF>
