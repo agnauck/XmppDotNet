@@ -9,7 +9,11 @@
         {
             try
             {
+// Disable the warning.
+#pragma warning disable SYSLIB0041
                 var pdb = new Rfc2898DeriveBytes(pass, salt, iterations);
+// Re-enable the warning.
+#pragma warning restore SYSLIB0041
                 return pdb.GetBytes(20);
             }
             catch (PlatformNotSupportedException)

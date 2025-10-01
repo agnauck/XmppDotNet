@@ -3,14 +3,14 @@
     using System;
     using System.Security.Cryptography;
 
-    internal abstract class HMAC : KeyedHashAlgorithm
+    public abstract class HMAC : KeyedHashAlgorithm
     {
         // Fields
         private int blockSizeValue = 0x40;
         internal HashAlgorithm m_hash1;
         internal HashAlgorithm m_hash2;
         private bool m_hashing;
-        internal string m_hashName;
+        internal HashAlgorithm m_hashAlgorithm;
         private byte[] m_inner;
         private byte[] m_outer;
 
@@ -136,12 +136,12 @@
                 blockSizeValue = value;
             }
         }
-
-        public string HashName
+        
+        public HashAlgorithm HashAlgorithm
         {
             get
             {
-                return m_hashName;
+                return m_hashAlgorithm;
             }
             set
             {
@@ -149,9 +149,9 @@
                 {
                     throw new CryptographicException("Cryptography_HashNameSet");
                 }
-                m_hashName = value;
-                m_hash1 = HashAlgorithm.Create(m_hashName);
-                m_hash2 = HashAlgorithm.Create(m_hashName);
+                m_hashAlgorithm = value;
+                m_hash1 = m_hashAlgorithm;
+                m_hash2 = m_hashAlgorithm;
             }
         }
 
