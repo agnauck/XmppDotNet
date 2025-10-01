@@ -2,23 +2,17 @@
 {
     using System.Security.Cryptography;
 
-    internal class HMACSHA1 : HMAC
+    public class HMACSHA1 : HMAC
     {
         public HMACSHA1(byte[] key)
-            : this(key, false)
         {
-        }
+            m_hashAlgorithm = SHA1.Create();
 
-        public HMACSHA1(byte[] key, bool useManagedSha1)
-        {
-            m_hashName = "SHA1";
-          
-            m_hash1 = new SHA1Managed();
-            m_hash2 = new SHA1Managed();
+            m_hash1 = SHA1.Create();
+            m_hash2 = SHA1.Create();
           
             HashSizeValue = 160;
             InitializeKey(key);
         }
     }
-
 }
