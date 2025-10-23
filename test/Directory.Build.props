@@ -1,3 +1,4 @@
 <Project>
+  <Import Project="$(MSBuildThisFileDirectory)../.build/targets-test.props" />
   <Import Project="$(MSBuildThisFileDirectory)../.build/dependencies.props" />
 </Project>

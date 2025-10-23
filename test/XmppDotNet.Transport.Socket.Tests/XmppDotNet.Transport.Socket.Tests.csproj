@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>XmppDotNet.Transport.Socket.Tests</AssemblyName>    
     <RootNamespace>XmppDotNet.Transport.Socket.Tests</RootNamespace>
   </PropertyGroup>

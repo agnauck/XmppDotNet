@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
     <PackageId>XmppDotNet.Srv.Tests</PackageId>
     <RootNamespace>XmppDotNet.Srv.Tests</RootNamespace>
   </PropertyGroup>
