@@ -1,6 +1,6 @@
 <Project>
     <Import Project="$(MSBuildThisFileDirectory)../.build/info.props" />
-    <Import Project="$(MSBuildThisFileDirectory)../.build/targets.props" />
+    <Import Project="$(MSBuildThisFileDirectory)../.build/targets-lib.props" />
     <Import Project="$(MSBuildThisFileDirectory)../.build/dependencies.props" />
     <Import Project="$(MSBuildThisFileDirectory)../.build/version.props" />  
 </Project>
