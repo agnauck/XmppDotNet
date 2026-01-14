@@ -128,8 +128,8 @@ namespace XmppDotNet.Xmpp.XData
             set
             {
                 RemoveAllFields();
-                foreach (var field in value)
-                    AddField(field);
+                foreach (var fieldval in value)
+                    AddField(fieldval);
             }
         }
         #endregion
