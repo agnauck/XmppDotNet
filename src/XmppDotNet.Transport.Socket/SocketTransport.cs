@@ -88,7 +88,18 @@ namespace XmppDotNet.Transport.Socket
                 TransportStateSubject.Value = State.StreamFooterReceived;
                 if (!streamFooterSent)
                 {
-                    await this.SendAsync(this.GetStreamFooter()).ConfigureAwait(false);
+                    try
+                    {
+                        await this.SendAsync(this.GetStreamFooter()).ConfigureAwait(false);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // Connection was closed before we could send the footer, ignore
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore other exceptions during stream end (connection may be closed)
+                    }
                 }
             };
 
@@ -135,13 +146,18 @@ namespace XmppDotNet.Transport.Socket
             XmlSent
                 .Subscribe(el =>
                 {
-                    if (KeepAliveInterval > 0)
+                    if (KeepAliveInterval > 0 && keepAliveTimer != null)
                     {
-                        keepAliveTimer?.Change(KeepAliveInterval, KeepAliveInterval);
+                        try
+                        {
+                            keepAliveTimer.Change(KeepAliveInterval, KeepAliveInterval);
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // Timer was disposed during disconnect, ignore
+                        }
                     }
-                }
-
-                );
+                });
         }
 
         // observers
@@ -211,7 +227,7 @@ namespace XmppDotNet.Transport.Socket
         /// <exception cref="InvalidOperationException">Throws when the underlying TcpClient is not connected to a server.</exception>
         public async Task SendAsync(XmppXElement xmppXElement, CancellationToken cancellationToken)
         {
-            if (!tcpClient.Client.Connected)
+            if (tcpClient == null || !tcpClient.Client.Connected)
             {
                 throw new InvalidOperationException("Cannot send data when the socket client is not connected.");
             }
@@ -262,7 +278,7 @@ namespace XmppDotNet.Transport.Socket
         /// <returns></returns>
         private async Task SendAsync(string data, CancellationToken cancellationToken)
         {
-            if (!tcpClient.Client.Connected)
+            if (tcpClient == null || !tcpClient.Client.Connected)
             {
                 throw new InvalidOperationException("Cannot send data when the socket client is not connected.");
             }
