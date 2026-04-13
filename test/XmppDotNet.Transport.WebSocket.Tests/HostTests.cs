@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-
-namespace XmppDotNet.Transport.WebSocket.Tests
+﻿namespace XmppDotNet.Transport.WebSocket.Tests
 {
     using XmppDotNet.Transport.WebSocket;
     using Shouldly;
+    using System.Net.Http;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class HostsTests
@@ -11,7 +11,8 @@ namespace XmppDotNet.Transport.WebSocket.Tests
         [Fact]
         public void Given_JsonMeta_Should_Return_Hosts_Uri()
         {
-            string json = "{\"links\":[{\"rel\":\"urn:xmpp:alt-connections:xbosh\",\"href\":\"https://palaver.im/bosh\"},{\"rel\":\"urn:xmpp:alt-connections:websocket\",\"href\":\"wss://palaver.im/ws\"}]}";
+            string json =
+                "{\"links\":[{\"rel\":\"urn:xmpp:alt-connections:xbosh\",\"href\":\"https://palaver.im/bosh\"},{\"rel\":\"urn:xmpp:alt-connections:websocket\",\"href\":\"wss://palaver.im/ws\"}]}";
             var resolver = new WebSocketUriResolver();
             resolver.GetUriFromJsonMetadata(json)
                 .AbsoluteUri
@@ -21,7 +22,8 @@ namespace XmppDotNet.Transport.WebSocket.Tests
         [Fact]
         public void Given_JsonMeta_When_Rel_Missing_Should_Return_Null()
         {
-            string json = "{\"links\":[{\"rel\":\"urn:xmpp:alt-connections:xbosh\", \"href\":\"https://palaver.im/bosh\"}]}";
+            string json =
+                "{\"links\":[{\"rel\":\"urn:xmpp:alt-connections:xbosh\", \"href\":\"https://palaver.im/bosh\"}]}";
             var resolver = new WebSocketUriResolver();
             resolver.GetUriFromJsonMetadata(json)
                 .ShouldBeNull();
@@ -43,18 +45,27 @@ namespace XmppDotNet.Transport.WebSocket.Tests
                 .AbsoluteUri
                 .ShouldBe("wss://web.example.com/ws");
         }
+       
 
         [Fact]
         public async Task Given_XmppDomain_Should_Return_Host()
         {
-            var resolver = new WebSocketUriResolver();
+            var jsonResponse = @"{
+                ""links"": [
+                    {
+                        ""rel"": ""urn:xmpp:alt-connections:websocket"",
+                        ""href"": ""wss://palaver.im/ws""
+                    }
+                ]
+            }";
+            
+            var handler = new HttpMockHandler() { Response = jsonResponse };
+            var resolver = new WebSocketUriResolver(new HttpClient(handler));
+           
             var uri = await resolver.ResolveUriAsync("palaver.im");
-
-            //var uri = await resolver.ResolveAsync("conversations.im");
-
-            uri.AbsoluteUri
-                .ShouldBe("wss://palaver.im/ws");
+           
+            uri.ShouldNotBeNull();
+            uri.AbsoluteUri.ShouldBe("wss://palaver.im/ws");
         }
-
     }
 }

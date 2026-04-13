@@ -14,10 +14,15 @@
 
     public class WebSocketUriResolver : IResolver
     {
-        private readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client;
 
-        public WebSocketUriResolver()
+        public WebSocketUriResolver() : this(new HttpClient())
         {
+        }
+        
+        internal WebSocketUriResolver(HttpClient httpClient)
+        {
+            client = httpClient;
             Factory.RegisterElementsFromAssembly(typeof(Xml.HostMeta).GetTypeInfo().Assembly);
         }
 

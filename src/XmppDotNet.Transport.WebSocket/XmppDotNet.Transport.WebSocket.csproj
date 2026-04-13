@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>XmppDotNet.Transport.WebSocket.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="Polly" Version="$(PollyVersion)" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />    
   </ItemGroup>
